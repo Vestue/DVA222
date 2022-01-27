@@ -156,4 +156,29 @@ public class Board
             }
         } 
     }
+
+    // Move the tile if it is within the frames of the board.
+    public void Move(Enum movement)
+    {
+        if (movement.Equals(Movement.Up) && _tiles[0].GetY() != 0)
+        {
+            int replaceIndex = FindTileIndex(_tiles[0].GetX(), _tiles[0].GetY() - 1);
+            _tiles[0].SwitchPlaces(_tiles[replaceIndex]);
+        }
+        else if (movement.Equals(Movement.Down) && _tiles[0].GetY() < _chosenTileAmount)
+        {
+            int replaceIndex = FindTileIndex(_tiles[0].GetX(), _tiles[0].GetY() + 1);
+            _tiles[0].SwitchPlaces(_tiles[replaceIndex]); 
+        }
+        else if (movement.Equals(Movement.Left) && _tiles[0].GetX() != 0)
+        {
+            int replaceIndex = FindTileIndex(_tiles[0].GetX() - 1, _tiles[0].GetY());
+            _tiles[0].SwitchPlaces(_tiles[replaceIndex]);  
+        }
+        else if (movement.Equals(Movement.Right) && _tiles[0].GetX() < _chosenTileAmount)
+        {
+            int replaceIndex = FindTileIndex(_tiles[0].GetX() + 1, _tiles[0].GetY());
+            _tiles[0].SwitchPlaces(_tiles[replaceIndex]);   
+        }
+    }
 }

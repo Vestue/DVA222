@@ -10,23 +10,23 @@ public class UserInput
       do
       {
          _userInput = Console.ReadKey(true);
-      } while (_userInput.Key != ConsoleKey.Enter 
+      } while (_userInput.Key != ConsoleKey.Escape
                && char.IsDigit(_userInput.KeyChar) != true || _userInput.KeyChar == '1' || _userInput.KeyChar == '0');
 
       return _userInput.KeyChar;
    }
 
-   public ConsoleKeyInfo Movement()
+   public ConsoleKey Movement()
    {
       do
       {
          _userInput = Console.ReadKey(true);
-      } while (_userInput.Key != ConsoleKey.Enter 
+      } while (_userInput.Key != ConsoleKey.Escape
                && _userInput.Key != ConsoleKey.UpArrow 
                && _userInput.Key != ConsoleKey.DownArrow 
                && _userInput.Key != ConsoleKey.RightArrow 
                && _userInput.Key != ConsoleKey.LeftArrow);
 
-      return _userInput;
+      return _userInput.Key;
    }
 }

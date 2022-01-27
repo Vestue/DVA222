@@ -6,11 +6,16 @@ public class Game
     private ConsoleDisplay _display = new ConsoleDisplay();
     private UserInput _userInput = new UserInput();
     private Board _board;
-    private int _moveAmount = 0;
+    private int _moveAmount;
 
     public Game()
     {
         Start();
+
+        if (Move() == 0)
+        {
+            _display.VictoryScreen(_moveAmount);
+        }
     }
     private void Start()
     {
@@ -33,11 +38,30 @@ public class Game
     {
         while (_board.BoardCompleted() == false)
         {
-            _display.Header();
-            
+            _display.Game(_board);
+
+            switch (_userInput.Movement())
+            {
+                case ConsoleKey.UpArrow:
+                    _board.Move(Movement.Up);
+                    break;
+                case ConsoleKey.DownArrow:
+                    _board.Move(Movement.Down);
+                    break;
+                case ConsoleKey.LeftArrow:
+                    _board.Move(Movement.Left);
+                    break;
+                case ConsoleKey.RightArrow:
+                    _board.Move(Movement.Right);
+                    break;
+                case ConsoleKey.Escape:
+                    return 1;
+            }
+
+            _moveAmount++;
         }
 
-        return 1;
+        return 0;
     }
 
     // !! COULD BE REMOVED AND REPLACED WITH A RETURN !!
