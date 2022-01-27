@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-
 namespace assignment1_n_puzzle;
 
 public class Board
@@ -9,7 +7,7 @@ public class Board
     private int _playerX;
     private int _playerY;
     private List<Tile> _tiles = new List<Tile>();
-    private List<Tile> _tilesCompletionState;
+    private List<Tile> _tilesCompletionState = new List<Tile>();
 
     public Board(int tileAmount)
     {
@@ -92,12 +90,12 @@ public class Board
         int inversions = 0;
         for (int ix = 0, iy = 0, jy = 0, jx = 1, n = 0; n < _totalTileAmount; n++, ix++, jx++)
         {
-            if (jx > _chosenTileAmount)
+            if (jx >= _chosenTileAmount)
             {
                 jy++;
                 jx = 0;
             }
-            else if (ix > _chosenTileAmount)
+            else if (ix >= _chosenTileAmount)
             {
                 iy++;
                 ix = 0;
@@ -127,5 +125,35 @@ public class Board
         }
 
         return i;
+    }
+
+    public bool BoardCompleted()
+    {
+        if (_tiles == _tilesCompletionState)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void DisplayGrid()
+    {
+        int index;
+        for (int x = 0, y = 0, i = 0; i < _totalTileAmount; i++, x++)
+        {
+            if (x >= _chosenTileAmount)
+            {
+                y++;
+                x = 0;
+                index = FindTileIndex(x, y);
+                Console.Write("\n{0} ", _tiles[index].GetNumber());
+            }
+            else
+            {
+                index = FindTileIndex(x, y);
+                Console.Write($"{_tiles[index].GetNumber() }");
+            }
+        } 
     }
 }
