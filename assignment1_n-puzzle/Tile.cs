@@ -19,6 +19,8 @@ public class Tile
 
    public void SwitchPlaces(Tile other)
    {
-      (_number, other._number) = (other._number, _number);
+      (_x, other._x) = (other._x, _x);
+      (_y, other._y) = (other._y, _y);
+      //(_number, other._number) = (other._number, _number);
    }
 }
