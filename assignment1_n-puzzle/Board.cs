@@ -28,15 +28,15 @@ public class Board
     {
         int x = 0;
         int y = 0;
-        for (var i = 0; i < _totalTileAmount; i++)
+        for (var i = 0; i < _totalTileAmount; i++, x++)
         {
-            _tiles.Add(new Tile(x, y, i));
-            
             if (x == _chosenTileAmount)
             {
                 y++;
                 x = 0;
             }
+            
+            _tiles.Add(new Tile(x, y, i));
         }
     }
 
@@ -88,7 +88,7 @@ public class Board
     private int CountInversions()
     {
         int inversions = 0;
-        for (int ix = 0, iy = 0, jy = 0, jx = 1, n = 0; n < _totalTileAmount; n++, ix++, jx++)
+        for (int ix = 0, iy = 0, jy = 0, jx = 1, n = 1; n < _totalTileAmount; n++, ix++, jx++)
         {
             if (jx >= _chosenTileAmount)
             {
@@ -129,12 +129,15 @@ public class Board
 
     public bool BoardCompleted()
     {
-        if (_tiles == _tilesCompletionState)
+        for (int i = 0; i < _totalTileAmount; i++)
         {
-            return true;
+            if (_tiles[i].GetX() != _tilesCompletionState[i].GetX())
+                return false;
+            if (_tiles[i].GetY() != _tilesCompletionState[i].GetY())
+                return false;
         }
 
-        return false;
+        return true;
     }
 
     public void DisplayGrid()
