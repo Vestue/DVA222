@@ -1,3 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-Console.WriteLine("Hello, World!");
+using assignment1_n_puzzle;
+
+Game nPuzzle = new Game();
