@@ -97,12 +97,12 @@ public class Board
         int inversions = 0;
         for (int ix = 0, iy = 0, jy = 0, jx = 1, n = 1; n < _totalTileAmount; n++, ix++, jx++)
         {
-            if (jx >= _chosenTileAmount)
+            if (jx == _chosenTileAmount)
             {
                 jy++;
                 jx = 0;
             }
-            else if (ix >= _chosenTileAmount)
+            else if (ix == _chosenTileAmount)
             {
                 iy++;
                 ix = 0;
@@ -152,25 +152,24 @@ public class Board
 
     public void DisplayGrid()
     {
-        int index;
         for (int x = 0, y = 0, i = 0; i < _totalTileAmount; i++, x++)
         {
-            if (x >= _chosenTileAmount)
+            if (x == _chosenTileAmount - 1)
             {
+                Console.WriteLine($"{_tiles[FindTileIndex(x, y)].GetNumber(), 6}");
+                Console.WriteLine("");
                 y++;
                 x = 0;
-                index = FindTileIndex(x, y);
-                Console.Write("\n{0} ", _tiles[index].GetNumber());
+                i++;
+                //Console.Write("\n{0} ", _tiles[FindTileIndex(x, y)].GetNumber());
             }
-            else
-            {
-                index = FindTileIndex(x, y);
-                Console.Write($"{_tiles[index].GetNumber() }");
-            }
+            if (y < _chosenTileAmount)
+                Console.Write($"{_tiles[FindTileIndex(x, y)].GetNumber(), 6}");
         } 
     }
 
     // Move the tile if it is within the frames of the board.
+    // Everything is contained within if statements to prevent improper use.
     public void Move(Enum movement)
     {
         if (movement.Equals(Movement.Up) && _tiles[0].GetY() != 0)
@@ -178,7 +177,7 @@ public class Board
             int replaceIndex = FindTileIndex(_tiles[0].GetX(), _tiles[0].GetY() - 1);
             _tiles[0].SwitchPlaces(_tiles[replaceIndex]);
         }
-        else if (movement.Equals(Movement.Down) && _tiles[0].GetY() < _chosenTileAmount)
+        else if (movement.Equals(Movement.Down) && _tiles[0].GetY() < _chosenTileAmount - 1)
         {
             int replaceIndex = FindTileIndex(_tiles[0].GetX(), _tiles[0].GetY() + 1);
             _tiles[0].SwitchPlaces(_tiles[replaceIndex]); 
@@ -188,7 +187,7 @@ public class Board
             int replaceIndex = FindTileIndex(_tiles[0].GetX() - 1, _tiles[0].GetY());
             _tiles[0].SwitchPlaces(_tiles[replaceIndex]);  
         }
-        else if (movement.Equals(Movement.Right) && _tiles[0].GetX() < _chosenTileAmount)
+        else if (movement.Equals(Movement.Right) && _tiles[0].GetX() < _chosenTileAmount - 1)
         {
             int replaceIndex = FindTileIndex(_tiles[0].GetX() + 1, _tiles[0].GetY());
             _tiles[0].SwitchPlaces(_tiles[replaceIndex]);   

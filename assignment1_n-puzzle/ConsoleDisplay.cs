@@ -23,7 +23,7 @@ public class ConsoleDisplay
     {
         Header();
         board.DisplayGrid();
-        Console.WriteLine("\n\nUse arrow-keys to move the blank space.");
+        Console.WriteLine("Use arrow-keys to move the blank space.");
         Footer();
     }
 
