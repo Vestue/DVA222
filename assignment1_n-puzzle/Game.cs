@@ -15,6 +15,7 @@ public class Game
         if (Move() == 0)
         {
             _display.VictoryScreen(_moveAmount);
+            Console.ReadKey(true);
         }
     }
     private void Start()

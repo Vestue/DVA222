@@ -47,7 +47,11 @@ public class Board
         {
             _tilesCompletionState.Add(new Tile(_tiles[i].GetX(), _tiles[i].GetY(), i));
         } 
-        _tilesCompletionState[0].SwitchPlaces(_tilesCompletionState[_totalTileAmount - 1]);
+        // Move the blank tile to the bottom and every other tile up
+        for (int i = 1; i < _totalTileAmount; i++)
+        {
+            _tilesCompletionState[0].SwitchPlaces(_tilesCompletionState[i]);
+        }
     }
     
     // Each tile will switch places with another randomly selected tile
