@@ -6,21 +6,25 @@ public class ConsoleDisplay
     {
         Header();
         Console.WriteLine("Welcome!");
-        Console.WriteLine("Enter a number to select the size of the board: ");
+        Console.WriteLine("Enter a number to select the size of the board.");
+        Footer();
     }
 
     private void Header()
     {
         Console.Clear();
-        Console.WriteLine("\tN-Puzzle\n");
-        Console.WriteLine("Press ESC to exit.\n");
+        Console.WriteLine("------------------------------------------------");
+        Console.WriteLine("                   N-Puzzle\n");
+        Console.WriteLine("Press ESC to exit.");
+        Console.WriteLine("------------------------------------------------\n");
     }
 
     public void Game(Board board)
     {
         Header();
         board.DisplayGrid();
-        Console.WriteLine("\nUse arrow-keys to move the blank space.");
+        Console.WriteLine("\n\nUse arrow-keys to move the blank space.");
+        Footer();
     }
 
     public void VictoryScreen(int moves)
@@ -28,5 +32,10 @@ public class ConsoleDisplay
         Header();
         Console.WriteLine("Congratulations!");
         Console.WriteLine($"Amount of moves: {moves}");
+    }
+
+    private void Footer()
+    {
+        Console.WriteLine("------------------------------------------------");
     }
 }

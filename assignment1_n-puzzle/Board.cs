@@ -4,8 +4,6 @@ public class Board
 {
     private int _chosenTileAmount;
     private int _totalTileAmount;
-    private int _playerX;
-    private int _playerY;
     private List<Tile> _tiles = new List<Tile>();
     private List<Tile> _tilesCompletionState = new List<Tile>();
 
@@ -14,7 +12,8 @@ public class Board
         _chosenTileAmount = tileAmount;
         _totalTileAmount = tileAmount * tileAmount;
         
-        // Generate a dynamic array of tiles and randomize their coordinates until the board is solvable.
+        // Generate a dynamic array of tiles and randomize their location.
+        // The tiles will randomly switch places with each other until the puzzle is in a solvable state.
         GenerateTiles();
         GenerateCompletionState();
         
@@ -39,13 +38,19 @@ public class Board
             _tiles.Add(new Tile(x, y, i));
         }
     }
-
+    
+    // Create a copy of the desired list for comparison between moves
     private void GenerateCompletionState()
     {
-        _tilesCompletionState = _tiles;
+        // Copy the data individually to avoid passing by reference
+        for (int i = 0; i < _totalTileAmount; i++)
+        {
+            _tilesCompletionState.Add(new Tile(_tiles[i].GetX(), _tiles[i].GetY(), i));
+        } 
         _tilesCompletionState[0].SwitchPlaces(_tilesCompletionState[_totalTileAmount - 1]);
     }
-
+    
+    // Each tile will switch places with another randomly selected tile
     private void RandomizeTileOrder()
     {
         Random rand = new Random();
@@ -66,7 +71,7 @@ public class Board
         {
             return true;
         }
-        else if (_chosenTileAmount % 2 == 0)
+        if (_chosenTileAmount % 2 == 0)
         {
             int positionFromBottom = _chosenTileAmount - _tiles[0].GetY() + 1;
             
@@ -76,7 +81,7 @@ public class Board
                 return true;
             }
             // Blank is on odd row from bottom and inversions are even
-            else if (positionFromBottom % 2 == 1 && inversions % 2 == 0)
+            if (positionFromBottom % 2 == 1 && inversions % 2 == 0)
             {
                 return true;
             }
@@ -85,6 +90,8 @@ public class Board
         return false;
     }
 
+    // Count the amount of times where the number of a tile is greater than the number of the tile after it.
+    // This is used in an algorithm to see if the current board is solvable.
     private int CountInversions()
     {
         int inversions = 0;
@@ -112,7 +119,9 @@ public class Board
 
         return inversions;
     }
-
+    
+    // To find the number of the tile, the program needs to find which index holds the current x and y values.
+    // This is used if only x and y values are known but the number and index itself is unknown.
     private int FindTileIndex(int x, int y)
     {
         int i = 0;
@@ -127,6 +136,7 @@ public class Board
         return i;
     }
 
+    // Compares the current list of tiles with the generated list of the desired completion state
     public bool BoardCompleted()
     {
         for (int i = 0; i < _totalTileAmount; i++)
