@@ -75,11 +75,6 @@ public class Board
     private bool CheckSolvable()
     {
         int inversions = CountInversions();
-
-        // No inversions implies that every tile is in order which it should not be at this stage.
-        // If this happens, the blank tile has been placed in a bad spot.
-        //if (inversions == 0)
-        //    return false;
         
         // N is odd and inversions are even
         if (_chosenTileAmount % 2 == 1 && inversions % 2 == 0)
