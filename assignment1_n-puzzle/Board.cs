@@ -6,8 +6,6 @@ public class Board
     private int _totalTileAmount;
     private List<Tile> _tiles = new List<Tile>();
     private List<Tile> _tilesCompletionState = new List<Tile>();
-    private int inversions;         // !! TEST !!
-    private int positionFromBottom; // !! TEST !!
 
     public Board()
     {
@@ -76,7 +74,7 @@ public class Board
 
     private bool CheckSolvable()
     {
-        inversions = CountInversions();
+        int inversions = CountInversions();
 
         // No inversions implies that every tile is in order which it should not be at this stage.
         // If this happens, the blank tile has been placed in a bad spot.
@@ -90,7 +88,7 @@ public class Board
         }
         if (_chosenTileAmount % 2 == 0)
         {
-            positionFromBottom = _chosenTileAmount - _tiles[0].GetY();
+            int positionFromBottom = _chosenTileAmount - _tiles[0].GetY();
             
             // Blank is on even row from bottom and inversions are odd
             if (positionFromBottom % 2 == 0 && inversions % 2 == 1)
@@ -112,7 +110,7 @@ public class Board
     // As "0" represents the blank tile, counting of it is skipped.
     private int CountInversions()
     {
-        inversions = 0;
+        int inversions = 0;
         for (int i = 0, x = 0, y = 0; i < _totalTileAmount; i++, x++)
         {
             if (x == _chosenTileAmount)
