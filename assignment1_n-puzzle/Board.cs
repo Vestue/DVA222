@@ -6,6 +6,14 @@ public class Board
     private int _totalTileAmount;
     private List<Tile> _tiles = new List<Tile>();
     private List<Tile> _tilesCompletionState = new List<Tile>();
+    private int inversions;         // !! TEST !!
+    private int positionFromBottom; // !! TEST !!
+
+    public Board()
+    {
+        _chosenTileAmount = 0;
+        _totalTileAmount = 0;
+    }
 
     public Board(int tileAmount)
     {
@@ -20,7 +28,7 @@ public class Board
         do
         {
             RandomizeTileOrder();
-        } while (CheckSolvable() == false);
+        } while (CheckSolvable() == false || BoardCompleted());
     }
 
     private void GenerateTiles()
@@ -68,7 +76,12 @@ public class Board
 
     private bool CheckSolvable()
     {
-        int inversions = CountInversions();
+        inversions = CountInversions();
+
+        // No inversions implies that every tile is in order which it should not be at this stage.
+        // If this happens, the blank tile has been placed in a bad spot.
+        //if (inversions == 0)
+        //    return false;
         
         // N is odd and inversions are even
         if (_chosenTileAmount % 2 == 1 && inversions % 2 == 0)
@@ -77,7 +90,7 @@ public class Board
         }
         if (_chosenTileAmount % 2 == 0)
         {
-            int positionFromBottom = _chosenTileAmount - _tiles[0].GetY() + 1;
+            positionFromBottom = _chosenTileAmount - _tiles[0].GetY();
             
             // Blank is on even row from bottom and inversions are odd
             if (positionFromBottom % 2 == 0 && inversions % 2 == 1)
@@ -94,30 +107,41 @@ public class Board
         return false;
     }
 
-    // Count the amount of times where the number of a tile is greater than the number of the tile after it.
+    // Count the amount of times where the number of a tile is greater than the number of the tiles after it.
     // This is used in an algorithm to see if the current board is solvable.
+    // As "0" represents the blank tile, counting of it is skipped.
     private int CountInversions()
     {
-        int inversions = 0;
-        for (int ix = 0, iy = 0, jy = 0, jx = 1, n = 1; n < _totalTileAmount; n++, ix++, jx++)
+        inversions = 0;
+        for (int i = 0, x = 0, y = 0; i < _totalTileAmount; i++, x++)
         {
-            if (jx == _chosenTileAmount)
+            if (x == _chosenTileAmount)
             {
-                jy++;
-                jx = 0;
-            }
-            else if (ix == _chosenTileAmount)
-            {
-                iy++;
-                ix = 0;
+                y++;
+                x = 0;
             }
 
-            int iIndex = FindTileIndex(ix, iy);
-            int jIndex = FindTileIndex(jx, jy);
+            int currentIndex = FindTileIndex(x, y);
 
-            if (_tiles[iIndex].GetNumber() > _tiles[jIndex].GetNumber())
+            if (currentIndex != 0)
             {
-                inversions++;
+                for (int j = i, jx = x + 1, jy = y; j < _totalTileAmount; j++, jx++)
+                {
+                    if (jx >= _chosenTileAmount)
+                    {
+                        jy++;
+                        jx = 0;
+                    }
+                    if (jy == _chosenTileAmount)
+                        break;
+
+                    int nextIndex = FindTileIndex(jx, jy);
+
+                    if (_tiles[currentIndex].GetNumber() > _tiles[nextIndex].GetNumber() && nextIndex != 0)
+                    {
+                        inversions++;
+                    }
+                } 
             }
         }
 
@@ -174,24 +198,24 @@ public class Board
 
     // Move the tile if it is within the frames of the board.
     // Everything is contained within if statements to prevent improper use.
-    public void Move(Enum movement)
+    public void Move(Movement move)
     {
-        if (movement.Equals(Movement.Up) && _tiles[0].GetY() != 0)
+        if (move == Movement.Up && _tiles[0].GetY() != 0)
         {
             int replaceIndex = FindTileIndex(_tiles[0].GetX(), _tiles[0].GetY() - 1);
             _tiles[0].SwitchPlaces(_tiles[replaceIndex]);
         }
-        else if (movement.Equals(Movement.Down) && _tiles[0].GetY() < _chosenTileAmount - 1)
+        else if (move == Movement.Down && _tiles[0].GetY() < _chosenTileAmount - 1)
         {
             int replaceIndex = FindTileIndex(_tiles[0].GetX(), _tiles[0].GetY() + 1);
             _tiles[0].SwitchPlaces(_tiles[replaceIndex]); 
         }
-        else if (movement.Equals(Movement.Left) && _tiles[0].GetX() != 0)
+        else if (move == Movement.Left && _tiles[0].GetX() != 0)
         {
             int replaceIndex = FindTileIndex(_tiles[0].GetX() - 1, _tiles[0].GetY());
             _tiles[0].SwitchPlaces(_tiles[replaceIndex]);  
         }
-        else if (movement.Equals(Movement.Right) && _tiles[0].GetX() < _chosenTileAmount - 1)
+        else if (move == Movement.Right && _tiles[0].GetX() < _chosenTileAmount - 1)
         {
             int replaceIndex = FindTileIndex(_tiles[0].GetX() + 1, _tiles[0].GetY());
             _tiles[0].SwitchPlaces(_tiles[replaceIndex]);   

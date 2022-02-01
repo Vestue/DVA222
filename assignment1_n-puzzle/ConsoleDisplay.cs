@@ -32,6 +32,7 @@ public class ConsoleDisplay
         Header();
         Console.WriteLine("Congratulations!");
         Console.WriteLine($"Amount of moves: {moves}");
+        Console.WriteLine("\nPress any key to exit.");
     }
 
     private void Footer()

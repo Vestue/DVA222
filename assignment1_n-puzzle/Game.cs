@@ -5,7 +5,7 @@ public class Game
     private int _chosenTiles;
     private ConsoleDisplay _display = new ConsoleDisplay();
     private UserInput _userInput = new UserInput();
-    private Board _board;
+    private Board _board = new Board();
     private int _moveAmount;
 
     public Game()
