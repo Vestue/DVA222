@@ -65,7 +65,6 @@ public class Game
         return 0;
     }
 
-    // !! COULD BE REMOVED AND REPLACED WITH A RETURN !!
     private void Exit()
     {
         Console.WriteLine("Exiting..");
