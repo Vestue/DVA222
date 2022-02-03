@@ -11,6 +11,9 @@ namespace SpaceDefenders
         float x, y, Speed = 10;
         GameEngine Engine;
 
+        public int X => (int)x;
+        public int Y => (int)y;
+
         public Player(GameEngine engine)
         {
             Engine = engine;
@@ -34,9 +37,20 @@ namespace SpaceDefenders
             }
         }
 
+        public void Fire()
+        {
+            var shot = new Shot(x, y - 1, Engine);
+            Engine.Add(shot);
+        }
+
         public void Draw(IRenderer renderer)
         {
             renderer.Draw(x, y, Entity.Player);
+        }
+
+        public void OnHit(int damage)
+        {
+            Engine.GameOver = true;
         }
     }
 }

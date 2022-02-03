@@ -33,14 +33,22 @@ namespace SpaceDefenders
                         case ConsoleKey.RightArrow:
                             engine.Move(Player.Direction.Right);
                             break;
+                        case ConsoleKey.Spacebar:
+                            engine.Fire();
+                            break;
                     }
                 }
 
                 engine.Tick();
-                Console.Clear();
+                Console.SetCursorPosition(0, 0);
                 renderer.Clear();
                 engine.Draw(renderer);
                 renderer.Display();
+
+                if (engine.GameOver)
+                {
+                    running = false;
+                }
 
                 Thread.Sleep(1000 / 10);
             }

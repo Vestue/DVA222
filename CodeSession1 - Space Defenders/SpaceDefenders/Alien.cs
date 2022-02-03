@@ -12,6 +12,9 @@ namespace SpaceDefenders
         Random Random = new Random();
         GameEngine Engine;
 
+        public int X => (int)x;
+        public int Y => (int)y;
+
         public Alien(GameEngine engine)
         {
             Engine = engine;
@@ -49,6 +52,11 @@ namespace SpaceDefenders
         public void Draw(IRenderer renderer)
         {
             renderer.Draw(x, y, Entity.Alien);
+        }
+
+        public void OnHit(int damage)
+        {
+            Engine.Remove(this);
         }
     }
 }

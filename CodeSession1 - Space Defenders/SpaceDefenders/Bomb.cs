@@ -11,6 +11,9 @@ namespace SpaceDefenders
         float x, y, Speed = 5;
         GameEngine Engine;
 
+        public int X => (int)x;
+        public int Y => (int)y;
+
         public Bomb(float x, float y, GameEngine engine)
         {
             this.x = x;
@@ -31,6 +34,11 @@ namespace SpaceDefenders
         public void Draw(IRenderer renderer)
         {
             renderer.Draw(x, y, Entity.Bomb);
+        }
+
+        public void Hit(Player player)
+        {
+            player.OnHit(1);
         }
     }
 }

@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace SpaceDefenders
 {
-    internal class Shot
+    internal class Shot : IAnimatable
     {
         float x, y, Speed = 5;
         GameEngine Engine;
+
+        public int X => (int)x;
+        public int Y => (int)y;
 
         public Shot(float x, float y, GameEngine engine)
         {
@@ -31,6 +34,12 @@ namespace SpaceDefenders
         public void Draw(IRenderer renderer)
         {
             renderer.Draw(x, y, Entity.Shot);
+        }
+
+        public void Hit(Alien alien)
+        {
+            alien.OnHit(1);
+            Engine.Remove(this);
         }
     }
 }
