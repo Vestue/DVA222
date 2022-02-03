@@ -12,12 +12,16 @@ namespace SpaceDefenders
         public int Height { get; }
         Random Random = new Random();
 
+        Player player;
+
         List<Alien> Aliens = new List<Alien>();
         List<Bomb> Bombs = new List<Bomb>();
         public GameEngine(int width, int heigth)
         {
             Width = width;
             Height = heigth;
+
+            player = new Player(this);
         }
 
         // Delegation
@@ -34,6 +38,11 @@ namespace SpaceDefenders
         public void Add(Bomb bomb)
         {
             Bombs.Add(bomb);
+        }
+
+        public void Move(Player.Direction direction)
+        {
+            player.Move(direction);
         }
 
         public void Tick()
@@ -56,6 +65,7 @@ namespace SpaceDefenders
             {
                 bomb.Draw(renderer);
             }
+            player.Draw(renderer);
         }
 
         private void Animate()

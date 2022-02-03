@@ -27,6 +27,12 @@ namespace SpaceDefenders
                         case ConsoleKey.Escape:
                             running = false;
                             break;
+                        case ConsoleKey.LeftArrow:
+                            engine.Move(Player.Direction.Left);
+                            break;
+                        case ConsoleKey.RightArrow:
+                            engine.Move(Player.Direction.Right);
+                            break;
                     }
                 }
 
