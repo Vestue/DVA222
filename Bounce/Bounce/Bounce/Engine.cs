@@ -11,7 +11,15 @@ namespace Bounce
 		List<Ball> Balls = new List<Ball>();
 		Random Random = new Random();
 
-		public void Run()
+        public Ball Ball
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public void Run()
 		{
             Form.Paint += Draw;
 			Timer.Tick += TimerEventHandler;
