@@ -38,7 +38,7 @@ public class Board
     private void GenerateTiles()
     {
         int x = 0, y = 0;
-        for (int i = 1; i < _totalTileAmount - 1; i++, x++)
+        for (int i = 1; i < _totalTileAmount; i++, x++)
         {
             if (x == _chosenTileAmount)
             {
@@ -50,8 +50,9 @@ public class Board
         }
         // Generates the last blank tile
         _tiles[x, y] = new Tile(0, y);
-        
-        _blankX = _blankY = 0;
+
+        _blankX = x;
+        _blankY = y;
     }
     
     // Create a copy of the desired list for comparison between moves
@@ -227,7 +228,7 @@ public class Board
         }
     }
 
-    public void SwapTiles(int x1, int y1, int x2, int y2)
+    private void SwapTiles(int x1, int y1, int x2, int y2)
     {
         (_tiles[x1, y1], _tiles[x2, y2]) = (_tiles[x2, y2], _tiles[x1, y1]);
 
