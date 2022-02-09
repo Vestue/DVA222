@@ -8,6 +8,8 @@ public class Board
     //private List<Tile> _tilesCompletionState = new List<Tile>();
     private Tile[,] _tiles;
     private Tile[,] _tilesCompletionState;
+    private int _blankX;
+    private int _blankY;
     
     public Board()
     {
@@ -45,6 +47,8 @@ public class Board
 
             _tiles[x, y] = new Tile(i);
         }
+
+        _blankX = _blankY = 0;
     }
     
     // Create a copy of the desired list for comparison between moves
@@ -52,33 +56,22 @@ public class Board
     {
         _tilesCompletionState = (Tile[,]) _tiles.Clone();
         
-        // Copy the data individually to avoid passing by reference
-        /*for (int i = 0; i < _totalTileAmount; i++)
-        {
-            _tilesCompletionState.Add(new Tile(_tiles[i].GetX(), _tiles[i].GetY(), i));
-        } */
+        // Move the blank tile to the last spot
         
-        // Move the blank tile to the bottom and every other tile up
-        /*for (int i = 1; i < _totalTileAmount; i++)
-        {
-            _tilesCompletionState[0].SwitchPlaces(_tilesCompletionState[i]);
-        }*/
-        for (int x = 0, y = 0, i = 0; i < _totalTileAmount - 1 ; i++, x++)
+        for (int x = 1, y = 0, i = 1; i < _totalTileAmount - 1 ; i++, x++)
         {
             if (x == _chosenTileAmount)
             {
                 y++;
                 x = 0;
             }
+            
+            // Switch places with the two tiles
+            (_tilesCompletionState[_blankX, _blankY], _tilesCompletionState[x, y]) = (_tilesCompletionState[x, y],
+                _tilesCompletionState[_blankX, _blankY]);
 
-            if (x == _chosenTileAmount - 1)
-            {
-                _tilesCompletionState[x, y].SwitchPlaces(_tilesCompletionState[0, y + 1]);
-            }
-            else
-            {
-                _tilesCompletionState[x, y].SwitchPlaces(_tilesCompletionState[x + 1, y]);
-            }
+            _blankX = x;
+            _blankY = y;
         }
     }
     
@@ -87,10 +80,26 @@ public class Board
     {
         Random rand = new Random();
         
-        for (int i = 0; i < _totalTileAmount; i++)
+        for (int i = 0, x = 0, y = 0; i < _totalTileAmount; i++, x++)
         {
-            int randomTileIndex = rand.Next(i, _totalTileAmount);
-            _tiles[i].SwitchPlaces(_tiles[randomTileIndex]);
+            if (x == _chosenTileAmount)
+            {
+                y++;
+                x = 0;
+            }
+
+            int randomX = rand.Next(x, _chosenTileAmount - 1);
+            int randomY = rand.Next(y, _chosenTileAmount - 1);
+
+            (_tiles[x, y], _tiles[randomX, randomY]) = (_tiles[randomX, randomY], _tiles[x, y]);
+            
+            // Coordinates of the blank has to be updated if it is moved.
+            // This to have direct access of the blank in other methods.
+            if (_tiles[randomX, randomY].GetNumber() == 0)
+            {
+                _blankX = randomX;
+                _blankY = randomY;
+            }
         }
     }
 
