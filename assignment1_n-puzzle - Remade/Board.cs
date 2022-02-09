@@ -45,7 +45,7 @@ public class Board
                 x = 0;
             }
 
-            _tiles[x, y] = new Tile(i);
+            _tiles[x, y] = new Tile(i, y);
         }
 
         _blankX = _blankY = 0;
