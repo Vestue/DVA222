@@ -4,9 +4,11 @@ public class Board
 {
     private int _chosenTileAmount;
     private int _totalTileAmount;
-    private List<Tile> _tiles = new List<Tile>();
-    private List<Tile> _tilesCompletionState = new List<Tile>();
-
+    //private List<Tile> _tiles = new List<Tile>();
+    //private List<Tile> _tilesCompletionState = new List<Tile>();
+    private Tile[,] _tiles;
+    private Tile[,] _tilesCompletionState;
+    
     public Board()
     {
         _chosenTileAmount = 0;
@@ -17,6 +19,8 @@ public class Board
     {
         _chosenTileAmount = tileAmount;
         _totalTileAmount = tileAmount * tileAmount;
+
+        _tiles = new Tile[tileAmount, tileAmount];
         
         // Generate a dynamic array of tiles and randomize their location.
         // The tiles will randomly switch places with each other until the puzzle is in a solvable state.
@@ -31,32 +35,50 @@ public class Board
 
     private void GenerateTiles()
     {
-        int x = 0;
-        int y = 0;
-        for (var i = 0; i < _totalTileAmount; i++, x++)
+        for (int x = 0, y = 0, i = 0; i < _totalTileAmount; i++, x++)
         {
             if (x == _chosenTileAmount)
             {
                 y++;
                 x = 0;
             }
-            
-            _tiles.Add(new Tile(x, y, i));
+
+            _tiles[x, y] = new Tile(i);
         }
     }
     
     // Create a copy of the desired list for comparison between moves
     private void GenerateCompletionState()
     {
+        _tilesCompletionState = (Tile[,]) _tiles.Clone();
+        
         // Copy the data individually to avoid passing by reference
-        for (int i = 0; i < _totalTileAmount; i++)
+        /*for (int i = 0; i < _totalTileAmount; i++)
         {
             _tilesCompletionState.Add(new Tile(_tiles[i].GetX(), _tiles[i].GetY(), i));
-        } 
+        } */
+        
         // Move the blank tile to the bottom and every other tile up
-        for (int i = 1; i < _totalTileAmount; i++)
+        /*for (int i = 1; i < _totalTileAmount; i++)
         {
             _tilesCompletionState[0].SwitchPlaces(_tilesCompletionState[i]);
+        }*/
+        for (int x = 0, y = 0, i = 0; i < _totalTileAmount - 1 ; i++, x++)
+        {
+            if (x == _chosenTileAmount)
+            {
+                y++;
+                x = 0;
+            }
+
+            if (x == _chosenTileAmount - 1)
+            {
+                _tilesCompletionState[x, y].SwitchPlaces(_tilesCompletionState[0, y + 1]);
+            }
+            else
+            {
+                _tilesCompletionState[x, y].SwitchPlaces(_tilesCompletionState[x + 1, y]);
+            }
         }
     }
     
