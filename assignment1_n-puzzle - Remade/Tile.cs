@@ -18,7 +18,7 @@ public class Tile
    {
       if (number == 0)
       {
-         _color = ConsoleColor.Black;
+         _color = Console.BackgroundColor;
       }
       else
       {

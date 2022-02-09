@@ -37,17 +37,20 @@ public class Board
 
     private void GenerateTiles()
     {
-        for (int x = 0, y = 0, i = 0; i < _totalTileAmount; i++, x++)
+        int x = 0, y = 0;
+        for (int i = 1; i < _totalTileAmount - 1; i++, x++)
         {
             if (x == _chosenTileAmount)
             {
                 y++;
                 x = 0;
             }
-
+            
             _tiles[x, y] = new Tile(i, y);
         }
-
+        // Generates the last blank tile
+        _tiles[x, y] = new Tile(0, y);
+        
         _blankX = _blankY = 0;
     }
     
@@ -57,7 +60,7 @@ public class Board
         _tilesCompletionState = (Tile[,]) _tiles.Clone();
         
         // Move the blank tile to the last spot
-        
+        /*
         for (int x = 1, y = 0, i = 1; i < _totalTileAmount - 1 ; i++, x++)
         {
             if (x == _chosenTileAmount)
@@ -72,7 +75,7 @@ public class Board
 
             _blankX = x;
             _blankY = y;
-        }
+        }*/
     }
     
     // Each tile will switch places with another randomly selected tile
@@ -145,9 +148,9 @@ public class Board
                         jy++;
                         jx = 0;
                     }
-                    /*
+                    
                     if (jy == _chosenTileAmount)
-                        break;*/
+                        break;
 
                     if (_tiles[x, y].GetNumber() > _tiles[jx, jy].GetNumber() && _tiles[jx, jy].GetNumber() != 0)
                     {
@@ -158,22 +161,6 @@ public class Board
         }
 
         return inversions;
-    }
-    
-    // To find the number of the tile, the program needs to find which index holds the current x and y values.
-    // This is used if only x and y values are known but the number and index itself is unknown.
-    private int FindTileIndex(int x, int y)
-    {
-        int i = 0;
-        for (; i < _totalTileAmount; i++)
-        {
-            if (_tiles[i].GetX() == x && _tiles[i].GetY() == y)
-            {
-                break;
-            }
-        }
-
-        return i;
     }
 
     // Compares the current list of tiles with the generated list of the desired completion state
@@ -200,18 +187,19 @@ public class Board
     {
         for (int x = 0, y = 0, i = 0; i < _totalTileAmount; i++, x++)
         {
+            Console.ForegroundColor = _tiles[x, y].GetColor();
             if (x == _chosenTileAmount - 1)
             {
-                Console.WriteLine($"{_tiles[FindTileIndex(x, y)].GetNumber(), 6}");
+                Console.WriteLine($"{_tiles[x, y].GetNumber(), 6}");
                 Console.WriteLine("");
                 y++;
                 x = 0;
                 i++;
-                //Console.Write("\n{0} ", _tiles[FindTileIndex(x, y)].GetNumber());
             }
             if (y < _chosenTileAmount)
-                Console.Write($"{_tiles[FindTileIndex(x, y)].GetNumber(), 6}");
+                Console.Write($"{_tiles[x ,y].GetNumber(), 6}");
         } 
+        Console.ResetColor();
     }
 
     // Move the tile if it is within the frames of the board.
