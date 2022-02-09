@@ -91,15 +91,7 @@ public class Board
             int randomX = rand.Next(x, _chosenTileAmount - 1);
             int randomY = rand.Next(y, _chosenTileAmount - 1);
 
-            (_tiles[x, y], _tiles[randomX, randomY]) = (_tiles[randomX, randomY], _tiles[x, y]);
-            
-            // Coordinates of the blank has to be updated if it is moved.
-            // This to have direct access of the blank in other methods.
-            if (_tiles[randomX, randomY].GetNumber() == 0)
-            {
-                _blankX = randomX;
-                _blankY = randomY;
-            }
+            SwapTiles(x, y, randomX, randomY);
         }
     }
 
@@ -114,8 +106,7 @@ public class Board
         }
         if (_chosenTileAmount % 2 == 0)
         {
-            int positionFromBottom = _chosenTileAmount - _tiles[0].GetY();
-            
+            int positionFromBottom = _chosenTileAmount - _blankY;
             // Blank is on even row from bottom and inversions are odd
             if (positionFromBottom % 2 == 0 && inversions % 2 == 1)
             {
@@ -137,7 +128,7 @@ public class Board
     private int CountInversions()
     {
         int inversions = 0;
-        for (int i = 0, x = 0, y = 0; i < _totalTileAmount; i++, x++)
+        for (int i = 0, x = 0, y = 0; i < _totalTileAmount - 1; i++, x++)
         {
             if (x == _chosenTileAmount)
             {
@@ -145,23 +136,20 @@ public class Board
                 x = 0;
             }
 
-            int currentIndex = FindTileIndex(x, y);
-
-            if (currentIndex != 0)
+            if (_tiles[x, y].GetNumber() != 0)
             {
                 for (int j = i, jx = x + 1, jy = y; j < _totalTileAmount; j++, jx++)
                 {
-                    if (jx >= _chosenTileAmount)
+                    if (jx == _chosenTileAmount)
                     {
                         jy++;
                         jx = 0;
                     }
+                    /*
                     if (jy == _chosenTileAmount)
-                        break;
+                        break;*/
 
-                    int nextIndex = FindTileIndex(jx, jy);
-
-                    if (_tiles[currentIndex].GetNumber() > _tiles[nextIndex].GetNumber() && nextIndex != 0)
+                    if (_tiles[x, y].GetNumber() > _tiles[jx, jy].GetNumber() && _tiles[jx, jy].GetNumber() != 0)
                     {
                         inversions++;
                     }
@@ -191,12 +179,18 @@ public class Board
     // Compares the current list of tiles with the generated list of the desired completion state
     public bool BoardCompleted()
     {
-        for (int i = 0; i < _totalTileAmount; i++)
+        for (int i = 0, x = 0, y = 0; i < _totalTileAmount; i++, x++)
         {
-            if (_tiles[i].GetX() != _tilesCompletionState[i].GetX())
+            if (x == _chosenTileAmount)
+            {
+                y++;
+                x = 0;
+            }
+            
+            if (_tiles[x, y].GetNumber() != _tilesCompletionState[x, y].GetNumber())
+            {
                 return false;
-            if (_tiles[i].GetY() != _tilesCompletionState[i].GetY())
-                return false;
+            }
         }
 
         return true;
@@ -224,25 +218,42 @@ public class Board
     // Everything is contained within if statements to prevent improper use.
     public void Move(Movement move)
     {
-        if (move == Movement.Up && _tiles[0].GetY() != 0)
+        switch (move)
         {
-            int replaceIndex = FindTileIndex(_tiles[0].GetX(), _tiles[0].GetY() - 1);
-            _tiles[0].SwitchPlaces(_tiles[replaceIndex]);
+            case Movement.Up:
+                if (_blankY != 0)
+                    SwapTiles(_blankX, _blankY, _blankX, _blankY - 1);
+                break;
+            case Movement.Down:
+                if (_blankY < _chosenTileAmount - 1)
+                    SwapTiles(_blankX, _blankY, _blankX, _blankY + 1);
+                break;
+            case Movement.Left:
+                if (_blankX != 0)
+                    SwapTiles(_blankX, _blankY, _blankX - 1, _blankY);
+                break;
+            case Movement.Right:
+                if (_blankX < _chosenTileAmount - 1)
+                    SwapTiles(_blankX, _blankY, _blankX + 1, _blankY);
+                break;
         }
-        else if (move == Movement.Down && _tiles[0].GetY() < _chosenTileAmount - 1)
+    }
+
+    public void SwapTiles(int x1, int y1, int x2, int y2)
+    {
+        (_tiles[x1, y1], _tiles[x2, y2]) = (_tiles[x2, y2], _tiles[x1, y1]);
+
+        // Coordinates of the blank has to be updated if it is moved.
+        // This to have direct access of the blank in other methods.
+        if (_tiles[x1, y1].GetNumber() == 0)
         {
-            int replaceIndex = FindTileIndex(_tiles[0].GetX(), _tiles[0].GetY() + 1);
-            _tiles[0].SwitchPlaces(_tiles[replaceIndex]); 
+            _blankX = x1;
+            _blankY = y1;
         }
-        else if (move == Movement.Left && _tiles[0].GetX() != 0)
+        else if (_tiles[x2, y2].GetNumber() == 0)
         {
-            int replaceIndex = FindTileIndex(_tiles[0].GetX() - 1, _tiles[0].GetY());
-            _tiles[0].SwitchPlaces(_tiles[replaceIndex]);  
-        }
-        else if (move == Movement.Right && _tiles[0].GetX() < _chosenTileAmount - 1)
-        {
-            int replaceIndex = FindTileIndex(_tiles[0].GetX() + 1, _tiles[0].GetY());
-            _tiles[0].SwitchPlaces(_tiles[replaceIndex]);   
+            _blankX = x2;
+            _blankY = y2;
         }
     }
 }

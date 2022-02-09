@@ -10,9 +10,4 @@ public class Tile
    }
 
    public int GetNumber() => _number;
-
-   public void SwitchPlaces(Tile other)
-   {
-      (_number, other._number) = (other._number, _number);
-   }
 }
