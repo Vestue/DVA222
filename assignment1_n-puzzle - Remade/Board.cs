@@ -92,8 +92,8 @@ public class Board
                 x = 0;
             }
 
-            int randomX = rand.Next(x, _chosenTileAmount - 1);
-            int randomY = rand.Next(y, _chosenTileAmount - 1);
+            int randomX = rand.Next(0, _chosenTileAmount - 1);
+            int randomY = rand.Next(0, _chosenTileAmount - 1);
 
             SwapTiles(x, y, randomX, randomY);
         }
@@ -196,6 +196,9 @@ public class Board
                 y++;
                 x = 0;
                 i++;
+
+                if (y < _chosenTileAmount)
+                    Console.ForegroundColor = _tiles[x, y].GetColor();
             }
             if (y < _chosenTileAmount)
                 Console.Write($"{_tiles[x ,y].GetNumber(), 6}");
