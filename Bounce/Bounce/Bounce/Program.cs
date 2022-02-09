@@ -4,7 +4,7 @@ namespace Bounce
 {
 	class MainClass
     {
-        public Engine Engine
+        public Engine Engine // LADES TILL AV CLASS DIAGRAM ??
         {
             get => default;
             set
