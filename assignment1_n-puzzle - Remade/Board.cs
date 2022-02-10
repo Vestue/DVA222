@@ -4,8 +4,6 @@ public class Board
 {
     private int _chosenTileAmount;
     private int _totalTileAmount;
-    //private List<Tile> _tiles = new List<Tile>();
-    //private List<Tile> _tilesCompletionState = new List<Tile>();
     private Tile[,] _tiles;
     private Tile[,] _tilesCompletionState;
     private int _blankX;
@@ -59,24 +57,6 @@ public class Board
     private void GenerateCompletionState()
     {
         _tilesCompletionState = (Tile[,]) _tiles.Clone();
-        
-        // Move the blank tile to the last spot
-        /*
-        for (int x = 1, y = 0, i = 1; i < _totalTileAmount - 1 ; i++, x++)
-        {
-            if (x == _chosenTileAmount)
-            {
-                y++;
-                x = 0;
-            }
-            
-            // Switch places with the two tiles
-            (_tilesCompletionState[_blankX, _blankY], _tilesCompletionState[x, y]) = (_tilesCompletionState[x, y],
-                _tilesCompletionState[_blankX, _blankY]);
-
-            _blankX = x;
-            _blankY = y;
-        }*/
     }
     
     // Each tile will switch places with another randomly selected tile
