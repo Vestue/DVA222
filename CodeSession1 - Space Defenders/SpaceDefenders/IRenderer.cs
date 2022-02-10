@@ -11,6 +11,8 @@ namespace SpaceDefenders
     {
         void Clear();
         void Draw(float x, float y, Entity entity);
+        void DrawScore(int score);
+        void DrawHealth(int health);
 
         void Display();
     }

@@ -19,7 +19,7 @@ namespace SpaceDefenders
 
             while (running)
             {
-                if (Console.KeyAvailable)
+                while (Console.KeyAvailable)
                 {
                     var key = Console.ReadKey(true);
                     switch (key.Key)
