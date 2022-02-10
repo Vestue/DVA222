@@ -12,7 +12,7 @@ public class ConsoleDisplay
 
     private void Header()
     {
-        Console.Clear();
+        Console.SetCursorPosition(0, 0);
         Console.WriteLine("------------------------------------------------");
         Console.WriteLine("                   N-Puzzle\n");
         Console.WriteLine("Press ESC to exit.");

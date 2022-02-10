@@ -11,9 +11,11 @@ public class Game
     public Game()
     {
         Start();
+        Console.Clear();
 
         if (Move() == 0)
         {
+            Console.Clear();
             _display.VictoryScreen(_moveAmount);
             Console.ReadKey(true);
         }
