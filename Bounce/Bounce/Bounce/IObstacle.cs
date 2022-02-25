@@ -7,11 +7,11 @@ using System.Drawing;
 
 namespace Bounce
 {
-    enum Obstacle { VerticalLine, HorizontalLine, SpeedUpBox, SpeedDownBox }
+    enum ObstacleType { VerticalLine, HorizontalLine, SpeedUpBox, SpeedDownBox }
     internal interface IObstacle
     {
         void UpdateSpeed(PointF Speed);
-        void DrawObject(Graphics g, Obstacle obstacle);
+        void DrawObject(Graphics g, ObstacleType obstacle);
         void CheckCollision(PointF Position);
     }
 }
