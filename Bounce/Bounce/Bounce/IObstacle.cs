@@ -7,12 +7,12 @@ using System.Drawing;
 
 namespace Bounce
 {
-    enum ObstacleType { VerticalLine, HorizontalLine, SpeedUpBox, SpeedDownBox }
+    //enum ObstacleType { VerticalLine, HorizontalLine, SpeedUpBox, SpeedDownBox }
     enum Axis { x, y, xy }
     internal interface IObstacle
     {
         void OnCollision(Ball ball);
-        void DrawObject(Graphics g, ObstacleType obstacle);
+        void DrawObject(Graphics g);
         void CheckCollision(PointF position, float radius);
     }
 }

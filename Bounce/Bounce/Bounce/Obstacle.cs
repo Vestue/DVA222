@@ -55,7 +55,7 @@ namespace Bounce
             Length = Random.Next(minSize,maxSize);
         }
         public abstract void CheckCollision(PointF position, float radius);
-        public abstract void DrawObject(Graphics g, ObstacleType obstacle);
-        public abstract void UpdateSpeed(PointF speed);
+        public abstract void DrawObject(Graphics g);
+        public abstract void OnCollision(Ball ball);
     }
 }

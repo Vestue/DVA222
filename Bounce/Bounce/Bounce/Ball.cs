@@ -39,14 +39,24 @@ namespace Bounce
 
 		public void TryCollide(Obstacle obstacle)
         {
-			if (obstacle.CheckCollision(Position, Radius)) obstacle.OnHit();
+			if (obstacle.CheckCollision(Position, Radius)) obstacle.OnCollision(this);
         }
 
 		// Ska bara updateras åt ett håll om det är en linje.
 		// Både x och y ska uppdateras om det är en rektangel.
 		public void UpdateSpeed(float speedFactor, Axis axis)
         {
-
+			switch (axis)
+            {
+				case Axis.x:
+					Speed.X = Speed.X * speedFactor;
+					break;
+				case Axis.y:
+					Speed.Y = Speed.Y * speedFactor;
+				case Axis.xy:
+					Speed.X = Speed.X * speedFactor;
+					Speed.Y = Speed.Y * speedFactor;
+            }
         }
 	}
 }

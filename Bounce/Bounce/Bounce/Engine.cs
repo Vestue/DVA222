@@ -33,7 +33,8 @@ namespace Bounce
 		{
 			if (Random.Next(100) < 25)
             {
-				var ball = new Ball(400, 300, 10);
+				// Changed to use the size of the form instead of hardcoded x and y.
+				var ball = new Ball(Form.Width / 2, Form.Height / 2, 10);
 				Balls.Add(ball);
 			}
 			
