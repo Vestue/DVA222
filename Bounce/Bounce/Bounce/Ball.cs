@@ -37,5 +37,16 @@ namespace Bounce
 			Position.Y += Speed.Y;
 		}
 
+		public void TryCollide(Obstacle obstacle)
+        {
+			if (obstacle.CheckCollision(Position, Radius)) obstacle.OnHit();
+        }
+
+		// Ska bara updateras åt ett håll om det är en linje.
+		// Både x och y ska uppdateras om det är en rektangel.
+		public void UpdateSpeed(float speedFactor, Axis axis)
+        {
+
+        }
 	}
 }
