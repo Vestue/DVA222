@@ -10,8 +10,8 @@ namespace Bounce
     enum ObstacleType { VerticalLine, HorizontalLine, SpeedUpBox, SpeedDownBox }
     internal interface IObstacle
     {
-        void UpdateSpeed(PointF Speed);
+        void UpdateSpeed(PointF speed);
         void DrawObject(Graphics g, ObstacleType obstacle);
-        void CheckCollision(PointF Position);
+        void CheckCollision(PointF position);
     }
 }
