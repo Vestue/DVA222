@@ -21,32 +21,34 @@ namespace Bounce
         public Obstacle(float x, float y)
         {
             // Dessa kan möjligtvis bara läggas in direkt i if-satserna där de används istället för att hoppa till variabler
-            float spawnMinX = x - 100;
-            float spawnMaxX = x + 100;
-            float spawnMinY = y - 100;
-            float spawnMaxY = y + 100;
+            float spawnMinX = x - maxSize;
+            float spawnMaxX = x + maxSize;
+            float spawnMinY = y - maxSize;
+            float spawnMaxY = y + maxSize;
 
             // The obstacle is either spawned to the left or to the right of the spawnbox. 
             // THERE SHOULD BE A BETTER WAY TO GET THE SPAWNBOX MIN AND MAX VALUES
             //! AND TO GET THE MIN AND MAX VALUES OF THE SIMULATION !!!!!
             // This assumes that the min coordinate of the simulation is 0 and the maxiumum is 1000.
             // This is not the case since the balls go much further.
+
+            // As objects are rendered left to right and top to bottom the min x and max y need to be further away from the centre point.
             if (Random.Next(0, 2) == 0)
             {
-                x = Random.Next(0, (int)spawnMinX);
+                x = Random.Next(-10 * maxSize, (int)spawnMinX - maxSize);
             }
             else
             {
-                x = Random.Next((int)spawnMaxX, 1000);
+                x = Random.Next((int)spawnMaxX, 10 * maxSize);
             }
             // The object is placed above or below the spawnbox.
             if (Random.Next(0, 2) == 0)
             {
-                y = Random.Next(0, (int)spawnMinY);
+                y = Random.Next(-10 * maxSize, (int)spawnMinY);
             }
             else
             {
-                y = Random.Next((int)spawnMaxY, 1000);
+                y = Random.Next((int)spawnMaxY + maxSize, 10 * maxSize);
             }
 
             Position = new PointF(x, y);
