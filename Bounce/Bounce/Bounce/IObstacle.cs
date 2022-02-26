@@ -11,8 +11,8 @@ namespace Bounce
     enum Axis { x, y, xy }
     internal interface IObstacle
     {
-        void OnCollision(Ball ball);
-        void DrawObject(Graphics g);
-        void CheckCollision(PointF position, float radius);
+        public void OnCollision(Ball ball);
+        public void DrawObject(Graphics g);
+        public bool CheckCollision(PointF ballPosition, float radius);
     }
 }

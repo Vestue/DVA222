@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Bounce
 {
-    class Line
+    internal abstract class Line : Obstacle
     {
+        public override void CheckCollision(PointF ballPosition, float radius)
+        {
+
+        }
     }
 }

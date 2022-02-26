@@ -54,7 +54,7 @@ namespace Bounce
             Position = new PointF(x, y);
             Length = Random.Next(minSize,maxSize);
         }
-        public abstract void CheckCollision(PointF position, float radius);
+        public abstract bool CheckCollision(PointF ballPosition, float radius);
         public abstract void DrawObject(Graphics g);
         public abstract void OnCollision(Ball ball);
     }
