@@ -15,7 +15,7 @@ namespace Bounce
         {
             base(x, y);
         }
-        public override bool CheckCollision(PointF ballPosition, float radius)
+        public bool CheckCollision(PointF ballPosition, float radius)
         {
             //PointF startPosition = Position;
             // End position could possibly be set in Obstacle class to increase code reusability.
@@ -46,6 +46,5 @@ namespace Bounce
         protected abstract void CreateObstacle();
         public abstract void OnCollision(Ball ball);
         public abstract void DrawObject(Graphics g);
-        public abstract bool CheckCollision(PointF ballPosition, float radius);
     }
 }
