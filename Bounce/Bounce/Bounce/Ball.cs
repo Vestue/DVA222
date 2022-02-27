@@ -37,7 +37,7 @@ namespace Bounce
 			Position.Y += Speed.Y;
 		}
 
-		public void TryCollide(Obstacle obstacle)
+		public void TryCollide(IObstacle obstacle)
         {
 			if (obstacle.CheckCollision(Position, Radius)) obstacle.OnCollision(this);
         }

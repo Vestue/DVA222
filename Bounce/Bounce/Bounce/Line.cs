@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 
 namespace Bounce
 {
-    internal abstract class Line : Obstacle
+    internal class Line : Obstacle, IObstacle
     {
         protected PointF startPosition;
         protected PointF endPosition;
+
+        protected Line(float x, float y)
+        {
+            base(x, y);
+        }
         public override bool CheckCollision(PointF ballPosition, float radius)
         {
             //PointF startPosition = Position;
@@ -38,5 +43,9 @@ namespace Bounce
             }
             return false;
         }
+        protected abstract void CreateObstacle();
+        public abstract void OnCollision(Ball ball);
+        public abstract void DrawObject(Graphics g);
+        public abstract bool CheckCollision(PointF ballPosition, float radius);
     }
 }

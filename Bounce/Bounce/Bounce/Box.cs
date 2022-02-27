@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 
 namespace Bounce
 {
-    internal abstract class Box : Obstacle
+    internal class Box : Obstacle
     {
         protected PointF topLeft;
         protected PointF topRight;
         protected PointF bottomLeft;
         protected PointF bottomRight;
         protected float Heigth;
+
+        protected Box(int x, int y)
+        {
+            base(x, y);
+            CreateObstacle();
+        }
         public override bool CheckCollision(PointF ballPosition, float radius)
         {
             var midX = (topLeft.X + topRight.X) / 2;
@@ -29,7 +35,7 @@ namespace Bounce
             var cornerDistance = (ballDistance.X - Length / 2) ^ 2 + (ballDistance.Y - Heigth / 2) ^ 2;
             return (cornerDistance <= radius ^ 2);
         }
-        private override void CreateObject()
+        private override void CreateObstacle()
         {
             Random random = new Random();
             Heigth = random.Next(MinSize, MaxSize);

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bounce
 {
-    internal abstract class Obstacle : IObstacle
+    internal class Obstacle
     {
         protected PointF Position;
         protected float Length;
@@ -18,7 +18,7 @@ namespace Bounce
         // Currently uses x and y values of the center to determine how close the obstacles can spawn.
         // This is to prevent obstacles from being able to spawn right in the area where circles spawn, causing the simulation to be useless.
         //! This area could be determined by a class by itself instead of needing to send 4 variables to each object.
-        public Obstacle(float x, float y)
+        protected Obstacle(float x, float y)
         {
             Random random = new Random();
             // Dessa kan möjligtvis bara läggas in direkt i if-satserna där de används istället för att hoppa till variabler
@@ -54,11 +54,6 @@ namespace Bounce
 
             Position = new PointF(x, y);
             Length = random.Next(MinSize,MaxSize);
-            CreateObject();
         }
-        private abstract void CreateObject();
-        public abstract bool CheckCollision(PointF ballPosition, float radius);
-        public abstract void DrawObject(Graphics g);
-        public abstract void OnCollision(Ball ball);
     }
 }
