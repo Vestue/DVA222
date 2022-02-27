@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Bounce
 {
-    internal class VerticalLine : Line
+    internal class HorizontalLine : Line
     {
         private override void CreateObject()
         {
             startPosition = Position;
-            endPosition = new PointF(Position.X, Position.Y - Length);
+            endPosition = new PointF(Position.X + Length, Position.Y);
         }
     }
 }

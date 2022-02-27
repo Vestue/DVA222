@@ -8,8 +8,8 @@ namespace Bounce
 {
     internal abstract class Line : Obstacle
     {
-        PointF startPosition;
-        PointF endPosition;
+        protected PointF startPosition;
+        protected PointF endPosition;
         public override bool CheckCollision(PointF ballPosition, float radius)
         {
             //PointF startPosition = Position;

@@ -8,11 +8,11 @@ namespace Bounce
 {
     internal abstract class Box : Obstacle
     {
-        PointF topLeft;
-        PointF topRight;
-        PointF bottomLeft;
-        PointF bottomRight;
-        float Heigth;
+        protected PointF topLeft;
+        protected PointF topRight;
+        protected PointF bottomLeft;
+        protected PointF bottomRight;
+        protected float Heigth;
         public override bool CheckCollision(PointF ballPosition, float radius)
         {
             var midX = (topLeft.X + topRight.X) / 2;
@@ -28,6 +28,16 @@ namespace Bounce
 
             var cornerDistance = (ballDistance.X - Length / 2) ^ 2 + (ballDistance.Y - Heigth / 2) ^ 2;
             return (cornerDistance <= radius ^ 2);
+        }
+        private override void CreateObject()
+        {
+            Random random = new Random();
+            Heigth = random.Next(MinSize, MaxSize);
+
+            topLeft = new PointF(Position.X, Position.Y);
+            topRight = new PointF(Position.X + Length, Position.Y);
+            bottomLeft = new PointF(Position.X, Position.Y - Heigth);
+            bottomRight = new PointF(Position.X + Length, Position.Y - Heigth);
         }
     }
 }
