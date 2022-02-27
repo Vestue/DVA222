@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace Bounce
 {
-    internal abstract class HorizontalLine : Obstacle
+    internal abstract class Line : Obstacle
     {
+        PointF startPosition;
+        PointF endPosition;
         public override bool CheckCollision(PointF ballPosition, float radius)
         {
-            PointF startPosition = Position;
+            //PointF startPosition = Position;
             // End position could possibly be set in Obstacle class to increase code reusability.
-            PointF endPosition = PointF(Position.X + Length, Position.Y);
+            //PointF endPosition = PointF(Position.X + Length, Position.Y);
 
             // Find which point on the line that is closes to the center of the ball.
             var lineVector = endPosition - startPosition;

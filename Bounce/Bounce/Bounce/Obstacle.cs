@@ -12,6 +12,7 @@ namespace Bounce
         protected PointF Position;
         protected float Length;
         Random Random = new Random();
+        // These determine the size of all lines
         protected int minSize = 10;
         protected int maxSize = 100;
 
@@ -53,7 +54,9 @@ namespace Bounce
 
             Position = new PointF(x, y);
             Length = Random.Next(minSize,maxSize);
+            CreateObject();
         }
+        private abstract void CreateObject();
         public abstract bool CheckCollision(PointF ballPosition, float radius);
         public abstract void DrawObject(Graphics g);
         public abstract void OnCollision(Ball ball);
