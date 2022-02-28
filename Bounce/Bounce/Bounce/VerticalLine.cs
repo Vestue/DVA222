@@ -8,6 +8,7 @@ namespace Bounce
 {
     internal class VerticalLine : Line
     {
+        Pen Pen = new Pen(Color.Yellow);
         public VerticalLine(int x, int y)
         {
             base(x, y);

@@ -10,6 +10,12 @@ namespace Bounce
     internal class HorizontalLine : Line
     {
         Pen Pen = new Pen(Color.Green);
+
+        public HorizontalLine(int x, int y)
+        {
+            base(x, y);
+            CreateObject();
+        }
         private override void CreateObject()
         {
             startPosition = Position;
