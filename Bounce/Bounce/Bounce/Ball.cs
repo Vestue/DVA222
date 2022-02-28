@@ -8,14 +8,17 @@ namespace Bounce
 	    Pen Pen = new Pen(Color.Black);
 
 		PointF Position;
-		PointF Speed;
+
+		// Changed to be able to get; to read speed before being updated by box.
+		public PointF Speed { get; private set; }
 
 		float Radius;
 
 		static Random Random = new Random();
 
-		// Added fields
-		public bool speedUpdated = false;
+		// Added properties
+		public bool SpeedUpdated { get; set; } = false;
+		public PointF SpeedBeforeUpdate { private get; set; }
 
 		public Ball(float x, float y, float radius)
 		{
@@ -43,6 +46,12 @@ namespace Bounce
 		public void TryCollide(IObstacle obstacle)
         {
 			if (obstacle.CheckCollision(Position, Radius)) obstacle.OnCollision(this);
+			// If the ball has left a obstacle which changes speed inside of it.
+			else if (SpeedUpdated)
+            {
+				Speed.X = SpeedBeforeUpdate.X;
+				Speed.Y = SpeedBeforeUpdate.Y;
+            }
         }
 
 		// Ska bara updateras åt ett håll om det är en linje.

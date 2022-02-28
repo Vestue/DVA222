@@ -20,10 +20,11 @@ namespace Bounce
         public override void OnCollision(Ball ball)
         {
             // Make sure that the speed isn't increase continuesly
-            if (ball.speedUpdated == false)
+            if (ball.SpeedUpdated == false)
             {
+                ball.SpeedBeforeUpdate = new PointF(ball.Speed);
                 ball.UpdateSpeed(1.25, Axis.xy);
-                ball.speedUpdated = true;
+                ball.SpeedUpdated = true;
             }
         }
 
