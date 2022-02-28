@@ -3,27 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 
 namespace Bounce
 {
-    internal class HorizontalLine : Line
+    internal class LineVertical : Line
     {
-        Pen Pen = new Pen(Color.Green);
-
-        public HorizontalLine(int x, int y)
+        Pen Pen = new Pen(Color.Yellow);
+        public LineVertical(int x, int y)
         {
             base(x, y);
-            CreateObject();
+            CreateObstacle();
         }
-        private override void CreateObject()
+        private override void CreateObstacle()
         {
             startPosition = Position;
-            endPosition = new PointF(Position.X + Length, Position.Y);
+            endPosition = new PointF(Position.X, Position.Y - Length);
         }
         public override void OnCollision(Ball ball)
         {
-            ball.UpdateSpeed(-1, Axis.y);
+            ball.UpdateSpeed(-1, Axis.x);
         }
 
         public override void DrawObject(Graphics g)
