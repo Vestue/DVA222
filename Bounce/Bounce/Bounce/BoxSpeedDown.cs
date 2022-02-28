@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Bounce
 {
-    internal class BoxSpeedUp : Box
+    class BoxSpeedDown : Box
     {
-        Pen Pen = new Pen(Color.Red);
-        public BoxSpeedUp(int x, int y)
+        Pen Pen = new Pen(Color.Blue);
+        public BoxSpeedDown(int x, int y)
         {
             base(x, y);
         }
@@ -19,7 +19,7 @@ namespace Bounce
         // FIXA!!!!
         public override void OnCollision(Ball ball)
         {
-            ball.UpdateSpeed(1.25, Axis.xy);
+            ball.UpdateSpeed(0.75, Axis.xy);
         }
 
         public override void DrawObject(Graphics g)

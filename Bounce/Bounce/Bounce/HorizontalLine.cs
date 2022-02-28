@@ -21,10 +21,14 @@ namespace Bounce
             startPosition = Position;
             endPosition = new PointF(Position.X + Length, Position.Y);
         }
-        public override void OnCollision(Ball ball) => ball.UpdateSpeed(-1, Axis.y);
+        public override void OnCollision(Ball ball)
+        {
+            ball.UpdateSpeed(-1, Axis.y);
+        }
+
         public override void DrawObject(Graphics g)
         {
-
+            g.DrawLine(Pen, startPosition, endPosition);
         }
     }
 }
