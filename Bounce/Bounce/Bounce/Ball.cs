@@ -14,6 +14,9 @@ namespace Bounce
 
 		static Random Random = new Random();
 
+		// Added fields
+		public bool speedUpdated = false;
+
 		public Ball(float x, float y, float radius)
 		{
 			Position = new PointF(x,y);

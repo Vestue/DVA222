@@ -19,7 +19,12 @@ namespace Bounce
         // FIXA!!!!
         public override void OnCollision(Ball ball)
         {
-            ball.UpdateSpeed(1.25, Axis.xy);
+            // Make sure that the speed isn't increase continuesly
+            if (ball.speedUpdated == false)
+            {
+                ball.UpdateSpeed(1.25, Axis.xy);
+                ball.speedUpdated = true;
+            }
         }
 
         public override void DrawObject(Graphics g)
