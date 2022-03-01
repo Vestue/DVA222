@@ -11,14 +11,6 @@ namespace Bounce
 		List<Ball> Balls = new List<Ball>();
 		Random Random = new Random();
 
-        public Ball Ball // LADES TILL AV CLASS DIAGRAM ??
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
         public void Run()
 		{
             Form.Paint += Draw;

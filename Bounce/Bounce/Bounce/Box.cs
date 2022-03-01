@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Bounce
 {
-    internal class Box : Obstacle, IObstacle
+    internal abstract class Box : Obstacle, IObstacle
     {
         protected PointF topLeft;
         protected PointF topRight;
@@ -14,9 +15,8 @@ namespace Bounce
         protected PointF bottomRight;
         protected float Heigth;
 
-        protected Box(int x, int y)
+        protected Box(float x, float y) : base(x, y)
         {
-            base(x, y);
             CreateObstacle();
         }
         public bool CheckCollision(PointF ballPosition, float radius)
@@ -32,8 +32,8 @@ namespace Bounce
             if (ballDistance.X <= Length / 2) return true;
             if (ballDistance.Y <= Heigth / 2) return true;
 
-            var cornerDistance = (ballDistance.X - Length / 2) ^ 2 + (ballDistance.Y - Heigth / 2) ^ 2;
-            return (cornerDistance <= radius ^ 2);
+            var cornerDistance = Math.Pow((ballDistance.X - Length / 2), 2) + Math.Pow((ballDistance.Y - Heigth / 2), 2);
+            return cornerDistance <= Math.Pow(radius, 2);
         }
         private void CreateObstacle()
         {

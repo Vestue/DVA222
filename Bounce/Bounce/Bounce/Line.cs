@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Bounce
 {
-    internal class Line : Obstacle, IObstacle
+    internal abstract class Line : Obstacle, IObstacle
     {
         protected PointF startPosition;
         protected PointF endPosition;
 
-        protected Line(float x, float y)
+        VectorMath vectorMath = new VectorMath();
+
+        protected Line(float x, float y) : base(x, y)
         {
-            base(x, y);
         }
         public bool CheckCollision(PointF ballPosition, float radius)
         {
@@ -22,28 +24,31 @@ namespace Bounce
             //PointF endPosition = PointF(Position.X + Length, Position.Y);
 
             // Find which point on the line that is closes to the center of the ball.
-            var lineVector = endPosition - startPosition;
-            var lineNorm = (1 / Length) * lineVector;
-            var startToBall = startPosition - ballPosition;
-            var closestPointOnLine = VectorMath.Dot(startToBall, lineVector) / Length;
+            PointF lineVector = new PointF(endPosition.X - startPosition.X, endPosition.Y - startPosition.Y);
+            PointF lineNorm = new PointF((1 / Length) * lineVector.X, (1 / Length) * lineVector.Y);
+            PointF startToBall = new PointF (startPosition.X - ballPosition.X, startPosition.Y - ballPosition.Y);
+            var closestPointOnLine = vectorMath.Dot(startToBall, lineVector) / Length;
 
             // Check if the closest point is the start or end coordinates
             PointF closest;
-            if (closestPointOnLine < 0) closest = startPosition;
-            else if (closestPointOnLine > Length) closest = endPosition;
-            else closest = startPosition + closestPointOnLine * lineNorm;
+            if (closestPointOnLine < 0) closest = new PointF(startPosition.X, startPosition.Y);
+            else if (closestPointOnLine > Length) closest = new PointF (endPosition.X, endPosition.Y);
+            else closest = new PointF(startPosition.X + closestPointOnLine * lineNorm.X, startPosition.Y + closestPointOnLine * lineNorm.Y);
 
             // Check if the distance from the closest point is less than the radius of the ball.
             // If this is true, the line is within the ball.
-            var distanceBetweenBallAndClosest = ballPosition - closest;
+            var distanceBetweenBallAndClosest = ballPosition.X - closest.X + ballPosition.Y - closest.Y;
 
-            if (Math.Sqrt(VectorMath.Dot(distanceBetweenBallAndClosest, distanceBetweenBallAndClosest)) <= radius)
+            // Gamla former i ifsatsen
+            //Math.Sqrt(vectorMath.Dot(distanceBetweenBallAndClosest, distanceBetweenBallAndClosest))
+
+            if (distanceBetweenBallAndClosest <= radius)
             {
                 return true;
             }
             return false;
         }
-        protected abstract void CreateObstacle();
+        protected abstract void CreateObject();
         public abstract void OnCollision(Ball ball);
         public abstract void DrawObject(Graphics g);
     }

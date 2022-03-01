@@ -8,9 +8,7 @@ namespace Bounce
 	    Pen Pen = new Pen(Color.Black);
 
 		PointF Position;
-
-		// Changed to be able to get; to read speed before being updated by box.
-		public PointF Speed { get; private set; }
+		PointF Speed;
 
 		float Radius;
 
@@ -42,7 +40,7 @@ namespace Bounce
 			Position.X += Speed.X;
 			Position.Y += Speed.Y;
 		}
-
+		public PointF GetSpeed() => Speed;
 		public void TryCollide(IObstacle obstacle)
         {
 			if (obstacle.CheckCollision(Position, Radius)) obstacle.OnCollision(this);
@@ -65,9 +63,11 @@ namespace Bounce
 					break;
 				case Axis.y:
 					Speed.Y = Speed.Y * speedFactor;
+					break;
 				case Axis.xy:
 					Speed.X = Speed.X * speedFactor;
 					Speed.Y = Speed.Y * speedFactor;
+					break;
             }
         }
 	}
