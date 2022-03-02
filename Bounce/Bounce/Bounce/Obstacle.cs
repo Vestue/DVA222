@@ -13,7 +13,7 @@ namespace Bounce
         protected float Length;
         // These determine the size of all lines
         protected int MinSize = 10;
-        protected int MaxSize = 100;
+        protected int MaxSize = 200;
 
         // Currently uses x and y values of the center to determine how close the obstacles can spawn.
         // This is to prevent obstacles from being able to spawn right in the area where circles spawn, causing the simulation to be useless.
@@ -22,10 +22,10 @@ namespace Bounce
         {
             Random random = new Random();
             // Dessa kan möjligtvis bara läggas in direkt i if-satserna där de används istället för att hoppa till variabler
-            float spawnMinX = x - MaxSize;
-            float spawnMaxX = x + MaxSize;
-            float spawnMinY = y - MaxSize;
-            float spawnMaxY = y + MaxSize;
+            float spawnMinX = x - MinSize;
+            float spawnMaxX = x + MinSize;
+            float spawnMinY = y - MinSize;
+            float spawnMaxY = y + MinSize;
 
             // The obstacle is either spawned to the left or to the right of the spawnbox. 
             // THERE SHOULD BE A BETTER WAY TO GET THE SPAWNBOX MIN AND MAX VALUES
@@ -36,20 +36,20 @@ namespace Bounce
             // As objects are rendered left to right and top to bottom the min x and max y need to be further away from the centre point.
             if (random.Next(0, 2) == 0)
             {
-                x = random.Next(-10 * MaxSize, (int)spawnMinX - MaxSize);
+                x = random.Next(-10 * MinSize, (int)spawnMinX - MinSize);
             }
             else
             {
-                x = random.Next((int)spawnMaxX, 10 * MaxSize);
+                x = random.Next((int)spawnMaxX, 100 * MinSize);
             }
             // The object is placed above or below the spawnbox.
             if (random.Next(0, 2) == 0)
             {
-                y = random.Next(-10 * MaxSize, (int)spawnMinY);
+                y = random.Next(-10 * MinSize, (int)spawnMinY);
             }
             else
             {
-                y = random.Next((int)spawnMaxY + MaxSize, 10 * MaxSize);
+                y = random.Next((int)spawnMaxY + MinSize, 100 * MinSize);
             }
 
             Position = new PointF(x, y);

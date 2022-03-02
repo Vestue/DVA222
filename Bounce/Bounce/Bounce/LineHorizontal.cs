@@ -10,7 +10,7 @@ namespace Bounce
     internal class LineHorizontal : Line
     {
         Pen Pen = new Pen(Color.Green);
-        public LineHorizontal(int x, int y) : base(x, y)
+        public LineHorizontal(float x, float y) : base(x, y)
         {
             CreateObject();
         }

@@ -10,7 +10,7 @@ namespace Bounce
     class BoxSpeedDown : Box
     {
         Pen Pen = new Pen(Color.Blue);
-        public BoxSpeedDown(int x, int y) : base(x, y)
+        public BoxSpeedDown(float x, float y) : base(x, y)
         {
         }
         public override void OnCollision(Ball ball)
@@ -18,7 +18,7 @@ namespace Bounce
             if (ball.SpeedUpdated == false)
             {
                 ball.SpeedBeforeUpdate = new PointF(ball.GetSpeed().X, ball.GetSpeed().Y);
-                ball.UpdateSpeed((float)0.75, Axis.xy);
+                ball.UpdateSpeed((float)0.5, Axis.xy);
                 ball.SpeedUpdated = true;
             }
         }
