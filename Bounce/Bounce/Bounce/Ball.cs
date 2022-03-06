@@ -17,6 +17,7 @@ namespace Bounce
 		// Added properties
 		public bool SpeedUpdated { get; private set; } = false;
 		PointF SpeedBeforeUpdate;
+		int timesLeftBox;
 
 		public Ball(float x, float y, float radius)
 		{
@@ -46,9 +47,17 @@ namespace Bounce
 			// If the ball has left a obstacle which changes speed inside of it.
 			else if (SpeedUpdated && obstacle.CheckCollision(Position, Radius) == false)
             {
-				Speed.X = SpeedBeforeUpdate.X;
-				Speed.Y = SpeedBeforeUpdate.Y;
-				SpeedUpdated = false;
+				// The collisioncheck fails within a certain interval.
+				// To prevent the speed from being reset while inside the box it needs to be checked several times before resetting.
+				// 250 times seems to be the optimal number as 200 is clunky and 300 makes them jump too far when speed up.
+				timesLeftBox++;
+				if (timesLeftBox == 250)
+                {
+					Speed.X = SpeedBeforeUpdate.X;
+					Speed.Y = SpeedBeforeUpdate.Y;
+					SpeedUpdated = false;
+					timesLeftBox = 0;
+				}
             }
         }
 
@@ -65,12 +74,16 @@ namespace Bounce
 					Speed.Y = Speed.Y * speedFactor;
 					break;
 				case Axis.xy:
-					SpeedBeforeUpdate = new PointF(Speed.X, Speed.Y);
+					if (SpeedUpdated == false)
+                    {
+						SpeedBeforeUpdate = new PointF(Speed.X, Speed.Y);
+					}
+
 					Speed.X = Speed.X * speedFactor;
 					Speed.Y = Speed.Y * speedFactor;
 
 					// Fungerar ej med denna
-					//SpeedUpdated = true;
+					SpeedUpdated = true;
 					break;
             }
         }

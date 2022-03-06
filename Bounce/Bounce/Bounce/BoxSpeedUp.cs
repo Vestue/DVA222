@@ -16,10 +16,8 @@ namespace Bounce
         public override void OnCollision(Ball ball)
         {
             // Make sure that the speed isn't increase continuesly
-            if (ball.SpeedUpdated == false)
-            {
-                ball.UpdateSpeed((float)1.2, Axis.xy);
-            }
+            
+            ball.UpdateSpeed((float)1.1, Axis.xy);
         }
         public override void DrawObject(Graphics g)
         {
