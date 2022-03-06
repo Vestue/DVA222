@@ -15,8 +15,8 @@ namespace Bounce
 		static Random Random = new Random();
 
 		// Added properties
-		public bool SpeedUpdated { get; set; } = false;
-		public PointF SpeedBeforeUpdate { private get; set; }
+		public bool SpeedUpdated { get; private set; } = false;
+		PointF SpeedBeforeUpdate;
 
 		public Ball(float x, float y, float radius)
 		{
@@ -40,7 +40,6 @@ namespace Bounce
 			Position.X += Speed.X;
 			Position.Y += Speed.Y;
 		}
-		public PointF GetSpeed() => Speed;
 		public void TryCollide(IObstacle obstacle)
         {
 			if (obstacle.CheckCollision(Position, Radius)) obstacle.OnCollision(this);
@@ -66,8 +65,10 @@ namespace Bounce
 					Speed.Y = Speed.Y * speedFactor;
 					break;
 				case Axis.xy:
+					SpeedBeforeUpdate = new PointF(Speed.X, Speed.Y);
 					Speed.X = Speed.X * speedFactor;
 					Speed.Y = Speed.Y * speedFactor;
+					SpeedUpdated = true;
 					break;
             }
         }

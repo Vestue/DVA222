@@ -18,9 +18,7 @@ namespace Bounce
             // Make sure that the speed isn't increase continuesly
             if (ball.SpeedUpdated == false)
             {
-                ball.SpeedBeforeUpdate = new PointF(ball.GetSpeed().X, ball.GetSpeed().Y);
                 ball.UpdateSpeed((float)2, Axis.xy);
-                ball.SpeedUpdated = true;
             }
         }
         public override void DrawObject(Graphics g)

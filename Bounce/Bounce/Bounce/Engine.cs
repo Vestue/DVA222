@@ -20,7 +20,7 @@ namespace Bounce
 		{
 			midX = Form.Width / 2;
 			midY = Form.Height / 2;
-			for (int i = 0; i < 50; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				IObstacle boxSpeedDown = new BoxSpeedDown(midX, midY);
 				IObstacle boxSpeedUp = new BoxSpeedUp(midX, midY);
@@ -49,6 +49,7 @@ namespace Bounce
 
 		void TimerEventHandler(Object obj, EventArgs args)
 		{
+			Collide();
 			if (Random.Next(100) < 25)
             {
 				// Changed to use the size of the form instead of hardcoded x and y.
@@ -59,7 +60,6 @@ namespace Bounce
 			
 			foreach (var ball in Balls) ball.Move();
 			Form.Refresh();
-			Collide();
 		}
 
 		void Draw(Object obj, PaintEventArgs args)
@@ -70,10 +70,10 @@ namespace Bounce
 
 		void Collide()
         {
-			//var balls = new List<Ball>(Balls);
-			//var obstacles = new List<IObstacle>(Obstacles);
-			foreach (var ball in Balls)
-				foreach (var obstacle in Obstacles)
+			var balls = new List<Ball>(Balls);
+			var obstacles = new List<IObstacle>(Obstacles);
+			foreach (var ball in balls)
+				foreach (var obstacle in obstacles)
 					ball.TryCollide(obstacle);
         }
 	}
