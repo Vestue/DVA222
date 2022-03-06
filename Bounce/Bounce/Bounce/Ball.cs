@@ -44,7 +44,7 @@ namespace Bounce
         {
 			if (obstacle.CheckCollision(Position, Radius)) obstacle.OnCollision(this);
 			// If the ball has left a obstacle which changes speed inside of it.
-			else if (SpeedUpdated == true)
+			else if (SpeedUpdated && obstacle.CheckCollision(Position, Radius) == false)
             {
 				Speed.X = SpeedBeforeUpdate.X;
 				Speed.Y = SpeedBeforeUpdate.Y;
@@ -68,7 +68,9 @@ namespace Bounce
 					SpeedBeforeUpdate = new PointF(Speed.X, Speed.Y);
 					Speed.X = Speed.X * speedFactor;
 					Speed.Y = Speed.Y * speedFactor;
-					SpeedUpdated = true;
+
+					// Fungerar ej med denna
+					//SpeedUpdated = true;
 					break;
             }
         }

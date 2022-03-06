@@ -17,7 +17,7 @@ namespace Bounce
         {
             if (ball.SpeedUpdated == false)
             {
-                ball.UpdateSpeed((float)0.5, Axis.xy);
+                ball.UpdateSpeed((float)0.95, Axis.xy);
             }
         }
 

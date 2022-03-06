@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Bounce
 {
 	public class Engine
 	{
 		MainForm Form = new MainForm();
-		Timer Timer = new Timer();
+		System.Windows.Forms.Timer Timer = new System.Windows.Forms.Timer();
 		List<Ball> Balls = new List<Ball>();
 		Random Random = new Random();
 
@@ -60,6 +61,7 @@ namespace Bounce
 			
 			foreach (var ball in Balls) ball.Move();
 			Form.Refresh();
+			//Thread.Sleep(1000 / 10);
 		}
 
 		void Draw(Object obj, PaintEventArgs args)
