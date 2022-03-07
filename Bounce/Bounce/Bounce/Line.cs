@@ -19,10 +19,6 @@ namespace Bounce
         }
         public bool CheckCollision(PointF ballPosition, float radius)
         {
-            //PointF startPosition = Position;
-            // End position could possibly be set in Obstacle class to increase code reusability.
-            //PointF endPosition = PointF(Position.X + Length, Position.Y);
-
             // Find which point on the line that is closes to the center of the ball.
             PointF lineVector = new PointF(endPosition.X - startPosition.X, endPosition.Y - startPosition.Y);
             PointF lineNorm = new PointF((1 / Length) * lineVector.X, (1 / Length) * lineVector.Y);
