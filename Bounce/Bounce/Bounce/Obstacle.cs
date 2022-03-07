@@ -9,6 +9,7 @@ namespace Bounce
 {
     internal class Obstacle
     {
+        protected Pen Pen = new Pen(Color.Black);
         protected PointF Position;
         protected float Length;
         // These determine the size of all lines

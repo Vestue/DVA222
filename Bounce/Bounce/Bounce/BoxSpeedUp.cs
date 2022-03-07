@@ -9,22 +9,13 @@ namespace Bounce
 {
     internal class BoxSpeedUp : Box
     {
-        Pen Pen = new Pen(Color.Red);
         public BoxSpeedUp(float x, float y) : base(x, y)
         {
+            Pen = new Pen(Color.Red);
         }
         public override void OnCollision(Ball ball)
         {
-            // Make sure that the speed isn't increase continuesly
-            
             ball.UpdateSpeed((float)1.1, Axis.xy);
-        }
-        public override void DrawObject(Graphics g)
-        {
-            g.DrawLine(Pen, topLeft, topRight);
-            g.DrawLine(Pen, topLeft, bottomLeft);
-            g.DrawLine(Pen, bottomLeft, bottomRight);
-            g.DrawLine(Pen, topRight, bottomRight);
         }
     }
 }

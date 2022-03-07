@@ -17,7 +17,13 @@ namespace Bounce
 
         protected Box(float x, float y) : base(x, y)
         {
-            CreateObstacle();
+            Random random = new Random();
+            Heigth = random.Next(MinSize, MaxSize);
+
+            topLeft = new PointF(Position.X, Position.Y);
+            topRight = new PointF(Position.X + Length, Position.Y);
+            bottomLeft = new PointF(Position.X, Position.Y - Heigth);
+            bottomRight = new PointF(Position.X + Length, Position.Y - Heigth);
         }
         public bool CheckCollision(PointF ballPosition, float radius)
         {
@@ -35,17 +41,13 @@ namespace Bounce
             var cornerDistance = Math.Pow((ballDistance.X - Length / 2), 2) + Math.Pow((ballDistance.Y - Heigth / 2), 2);
             return cornerDistance <= Math.Pow(radius, 2);
         }
-        private void CreateObstacle()
+        public void DrawObject(Graphics g)
         {
-            Random random = new Random();
-            Heigth = random.Next(MinSize, MaxSize);
-
-            topLeft = new PointF(Position.X, Position.Y);
-            topRight = new PointF(Position.X + Length, Position.Y);
-            bottomLeft = new PointF(Position.X, Position.Y - Heigth);
-            bottomRight = new PointF(Position.X + Length, Position.Y - Heigth);
+            g.DrawLine(Pen, topLeft, topRight);
+            g.DrawLine(Pen, topLeft, bottomLeft);
+            g.DrawLine(Pen, bottomLeft, bottomRight);
+            g.DrawLine(Pen, topRight, bottomRight);
         }
-        public abstract void DrawObject(Graphics g);
         public abstract void OnCollision(Ball ball);
     }
 }

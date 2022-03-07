@@ -48,8 +48,10 @@ namespace Bounce
             }
             return false;
         }
-        protected abstract void CreateObject();
         public abstract void OnCollision(Ball ball);
-        public abstract void DrawObject(Graphics g);
+        public void DrawObject(Graphics g)
+        {
+            g.DrawLine(Pen, startPosition, endPosition);
+        }
     }
 }
