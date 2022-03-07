@@ -37,7 +37,7 @@ namespace Bounce
 				Obstacles.Add(lineHorizontal);
 
 				// Bollarna wigglar vertikalt
-				//Obstacles.Add(lineVertical);
+				Obstacles.Add(lineVertical);
 			}
 
 			Form.Paint += Draw;

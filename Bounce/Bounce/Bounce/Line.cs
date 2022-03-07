@@ -17,6 +17,7 @@ namespace Bounce
         protected Line(float x, float y) : base(x, y)
         {
         }
+        /*
         public bool CheckCollision(PointF ballPosition, float radius)
         {
             // Find which point on the line that is closes to the center of the ball.
@@ -42,6 +43,15 @@ namespace Bounce
             {
                 return true;
             }
+            return false;
+        }*/
+
+        // Simplified collisionCheck that interprets the ball as a square
+        public bool CheckCollision(PointF ballPosition, float radius)
+        {
+            bool withinXRange = startPosition.X - radius <= ballPosition.X && ballPosition.X <= endPosition.X + radius;
+            bool withinYRange = endPosition.Y - radius <= ballPosition.Y && ballPosition.Y <= startPosition.Y + radius;
+            if (withinXRange && withinYRange) return true;
             return false;
         }
         public abstract void OnCollision(Ball ball);
