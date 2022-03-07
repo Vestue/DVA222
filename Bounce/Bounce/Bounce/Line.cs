@@ -33,12 +33,12 @@ namespace Bounce
 
             // Check if the distance from the closest point is less than the radius of the ball.
             // If this is true, the line is within the ball.
-            var distanceBetweenBallAndClosest = ballPosition.X - closest.X + ballPosition.Y - closest.Y;
+            PointF distanceBetweenBallAndClosest = new PointF(ballPosition.X - closest.X, ballPosition.Y - closest.Y);
 
             // Gamla former i ifsatsen
             //Math.Sqrt(vectorMath.Dot(distanceBetweenBallAndClosest, distanceBetweenBallAndClosest))
 
-            if (distanceBetweenBallAndClosest <= radius)
+            if (distanceBetweenBallAndClosest.X <= radius || distanceBetweenBallAndClosest.Y <= radius)
             {
                 return true;
             }
