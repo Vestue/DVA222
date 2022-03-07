@@ -29,8 +29,8 @@ namespace Bounce
 				IObstacle lineVertical = new LineVertical(midX, midY);
 
 				// Kollisionen triggras inte inom lådan
-				//Obstacles.Add(boxSpeedDown);
-				//Obstacles.Add(boxSpeedUp);
+				Obstacles.Add(boxSpeedDown);
+				Obstacles.Add(boxSpeedUp);
 
 				// För linjerna verkar kollisionen fungera någolunda bra, behöver bara stoppa wigglen.
 				// Bollarna wigglar horisontellt

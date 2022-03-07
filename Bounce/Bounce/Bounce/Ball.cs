@@ -68,10 +68,18 @@ namespace Bounce
 			switch (axis)
             {
 				case Axis.x:
-					Speed.X = Speed.X * speedFactor;
+					// Adds a small delay before the direction can be change again.
+					// This is to balls from getting stuck wiggling in lines.
+					if (SpeedAltered == false)
+                    {
+						Speed.X = Speed.X * speedFactor;
+					}
 					break;
 				case Axis.y:
-					Speed.Y = Speed.Y * speedFactor;
+					if (SpeedAltered == false)
+                    {
+						Speed.Y = Speed.Y * speedFactor;
+					}
 					break;
 				case Axis.xy:
 					if (SpeedAltered == false)
