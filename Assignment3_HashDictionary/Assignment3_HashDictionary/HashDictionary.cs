@@ -11,7 +11,7 @@ namespace Assignment3_HashDictionary
     internal class HashDictionary : IDictionary<int, string>
     {
         readonly int _tableSize = 10000; 
-        LinkedList<KeyValuePair<int, string>>[] _htable = new LinkedList<KeyValuePair<int, string>>[10000];
+        List<KeyValuePair<int, string>>[] _htable = new List<KeyValuePair<int, string>>[10000];
 
         int count;
 
@@ -26,18 +26,18 @@ namespace Assignment3_HashDictionary
         // Values themselves cannot be modified though?
         public bool IsReadOnly => false;
 
-        private int GetHash(string value) => value.GetHashCode() % _tableSize;
+        private int GetHash(int key) => key.GetHashCode() % _tableSize;
 
         public void Add(int key, string value)
         {
             count++;
-            _htable[GetHash(value)].AddLast(new KeyValuePair<int, string>(key, value));
+            _htable[GetHash(key)].Add(new KeyValuePair<int, string>(key, value));
         }
 
         public void Add(KeyValuePair<int, string> item)
         {
             count++;
-            _htable[GetHash(item.Value)].AddLast(new KeyValuePair<int, string>(item.Key, item.Value));
+            _htable[GetHash(item.Key)].Add(new KeyValuePair<int, string>(item.Key, item.Value));
         }
 
         public void Clear()
@@ -48,12 +48,13 @@ namespace Assignment3_HashDictionary
 
         public bool Contains(KeyValuePair<int, string> item)
         {
-            throw new NotImplementedException();
+            return _htable[GetHash(item.Key)].Contains(item);
         }
 
         public bool ContainsKey(int key)
         {
-            throw new NotImplementedException();
+            if (_htable[GetHash(key)] != null) return true;
+            return false;
         }
 
         public void CopyTo(KeyValuePair<int, string>[] array, int arrayIndex)
