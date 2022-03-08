@@ -9,11 +9,11 @@ namespace Bounce
 {
     internal abstract class Box : Obstacle, IObstacle
     {
-        protected PointF topLeft;
-        protected PointF topRight;
-        protected PointF bottomLeft;
-        protected PointF bottomRight;
-        protected float Heigth;
+        PointF topLeft;
+        PointF topRight;
+        PointF bottomLeft;
+        PointF bottomRight;
+        float Heigth;
 
         protected Box(float x, float y) : base(x, y)
         {
@@ -41,7 +41,7 @@ namespace Bounce
             var cornerDistance = Math.Pow((ballDistance.X - Length / 2), 2) + Math.Pow((ballDistance.Y - Heigth / 2), 2);
             return cornerDistance <= Math.Pow(radius, 2);
         }
-        public void DrawObject(Graphics g)
+        public void Draw(Graphics g)
         {
             g.DrawLine(Pen, topLeft, topRight);
             g.DrawLine(Pen, topLeft, bottomLeft);

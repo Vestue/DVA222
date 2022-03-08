@@ -11,7 +11,7 @@ namespace Bounce
     public interface IObstacle
     {
         public void OnCollision(Ball ball);
-        public void DrawObject(Graphics g);
+        public void Draw(Graphics g);
         public bool CheckCollision(PointF ballPosition, float radius);
     }
 }

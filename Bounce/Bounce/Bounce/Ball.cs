@@ -9,12 +9,11 @@ namespace Bounce
 
 		PointF Position;
 		PointF Speed;
-
 		float Radius;
 
 		static Random Random = new Random();
 
-		// Added properties
+		// Added fields
 		bool SpeedAltered = false;
 		bool RecentlySwitchedDirection = false;
 		PointF SpeedBeforeUpdate;
@@ -49,16 +48,18 @@ namespace Bounce
 			// If the ball has left a obstacle which changes speed inside of it.
 			else if (SpeedAltered || RecentlySwitchedDirection)
             {
-				// The collisioncheck fails within a certain interval.
+				// The collisioncheck can sometimes incorrectly be interpreted as false when it should be true.
 				// To prevent the speed from being reset while inside the box it needs to be checked several times before resetting.
-				// 250 times seems to be the optimal number as 200 is clunky and 300 makes them jump too far when speed up.
+				// A number between 250 and 500 seems to be optimal.
 				if (SpeedAltered) countInBox++;
-				if (countInBox == 250)
+				if (countInBox == 400)
                 {
 					Speed.X = SpeedBeforeUpdate.X;
 					Speed.Y = SpeedBeforeUpdate.Y;
 					SpeedAltered = false;
 					countInBox = 0;
+
+					// A better solution would be to simply update the collision check in boxes to not have this bug.
 				}
 				// Counts since collision within boxes and with lines are counted seperately
 				// since lines can spawn within boxes and should still work as intended when it occurs.
@@ -67,15 +68,13 @@ namespace Bounce
             }
         }
 
-		// Ska bara updateras åt ett håll om det är en linje.
-		// Både x och y ska uppdateras om det är en rektangel.
 		public void UpdateSpeed(float speedFactor, Axis axis)
         {
 			switch (axis)
             {
 				case Axis.x:
 					// Adds a small delay before the direction can be change again.
-					// This is to balls from getting stuck wiggling in lines.
+					// This is to prevent balls from getting stuck in a "wiggling" state within lines.
 					if (RecentlySwitchedDirection == false)
                     {
 						Speed.X = Speed.X * speedFactor;
@@ -92,12 +91,13 @@ namespace Bounce
 				case Axis.xy:
 					if (SpeedAltered == false)
                     {
+						// This check is used to make sure that only the speed prior to entering the box is saved.
+						// The speed can be continiously increase or decreased while remaining in the box,
+						// but then the first speed should not be overwritted by an altered speed.
 						SpeedBeforeUpdate = new PointF(Speed.X, Speed.Y);
 					}
-
 					Speed.X = Speed.X * speedFactor;
 					Speed.Y = Speed.Y * speedFactor;
-
 					SpeedAltered = true;
 					break;
             }
