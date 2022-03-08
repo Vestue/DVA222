@@ -63,12 +63,16 @@ namespace Assignment3_HashDictionary
 
         public bool Remove(int key)
         {
-            throw new NotImplementedException();
+            // if found return true and count--
+
+            return false;
         }
 
         public bool Remove(KeyValuePair<int, string> item)
         {
-            throw new NotImplementedException();
+            // if found return true and count--
+
+            return false;
         }
 
         public bool TryGetValue(int key, [MaybeNullWhen(false)] out string value)
