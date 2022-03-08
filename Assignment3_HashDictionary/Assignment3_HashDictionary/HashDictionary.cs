@@ -39,7 +39,8 @@ namespace Assignment3_HashDictionary
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            Array.Clear(_htable, 0, count);
+            count = 0;
         }
 
         public bool Contains(KeyValuePair<int, string> item)
