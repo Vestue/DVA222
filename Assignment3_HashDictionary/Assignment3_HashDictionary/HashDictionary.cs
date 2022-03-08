@@ -10,8 +10,7 @@ namespace Assignment3_HashDictionary
 {
     internal class HashDictionary : IDictionary<int, string>
     {
-        // En array av länkade listor av KeyValuePairs?
-        int _tableSize = 10000; // Useless atm
+        readonly int _tableSize = 10000; 
         LinkedList<KeyValuePair<int, string>>[] _htable = new LinkedList<KeyValuePair<int, string>>[10000];
 
         int count;
@@ -29,11 +28,13 @@ namespace Assignment3_HashDictionary
         public void Add(int key, string value)
         {
             count++;
+            int hash = value.GetHashCode() % _tableSize;
         }
 
         public void Add(KeyValuePair<int, string> item)
         {
             count++;
+            int hash = item.Value.GetHashCode() % _tableSize;
         }
 
         public void Clear()
