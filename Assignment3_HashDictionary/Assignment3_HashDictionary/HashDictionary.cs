@@ -23,23 +23,26 @@ namespace Assignment3_HashDictionary
 
         public int Count => count;
 
-        public bool IsReadOnly => throw new NotImplementedException();
+        // Values themselves cannot be modified though?
+        public bool IsReadOnly => false;
+
+        private int GetHash(string value) => value.GetHashCode() % _tableSize;
 
         public void Add(int key, string value)
         {
             count++;
-            int hash = value.GetHashCode() % _tableSize;
+            _htable[GetHash(value)].AddLast(new KeyValuePair<int, string>(key, value));
         }
 
         public void Add(KeyValuePair<int, string> item)
         {
             count++;
-            int hash = item.Value.GetHashCode() % _tableSize;
+            _htable[GetHash(item.Value)].AddLast(new KeyValuePair<int, string>(item.Key, item.Value));
         }
 
         public void Clear()
         {
-            Array.Clear(_htable, 0, count);
+            Array.Clear(_htable, 0, _tableSize);
             count = 0;
         }
 
