@@ -54,7 +54,10 @@ namespace Assignment3_HashDictionary
 
         public bool ContainsKey(int key)
         {
-            if (_htable[GetHash(key)] != null) return true;
+            foreach(KeyValuePair<int, string> item in _htable[GetHash(key)])
+            {
+                if (item.Key == key) return true;
+            }
             return false;
         }
 
