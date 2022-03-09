@@ -16,7 +16,7 @@ namespace Assignment3_HashDictionary
         // Teststuff
         ICollection<List<KeyValuePair<int, string>>> _table;
 
-        int _count;
+        int _count = 0;
 
         public string this[int key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 

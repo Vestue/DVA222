@@ -26,12 +26,23 @@ namespace Assignment3_HashDictionary
 
         public bool MoveNext()
         {
-            throw new NotImplementedException();
+            _position++;
+            return (_position < _htable.Count());
         }
 
         public void Reset()
         {
             _position = -1;
+        }
+
+        // Might be useful later. Remove if not
+        private int Length()
+        {
+            int count = 0;
+            foreach(List<KeyValuePair<int, string>> chain in _htable)
+                foreach(KeyValuePair<int, string> pair in chain)
+                    count++;
+            return count;
         }
     }
 }
