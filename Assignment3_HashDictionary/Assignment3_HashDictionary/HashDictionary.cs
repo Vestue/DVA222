@@ -73,10 +73,9 @@ namespace Assignment3_HashDictionary
 
         public bool Remove(int key)
         {
-            if (ContainsKey(GetHash(key)))
+            foreach( KeyValuePair<int, string> item in _htable[GetHash(key)])
             {
-                _htable[GetHash(key)].RemoveAt(0);
-                return true;
+                if (item.Key == key) return _htable[GetHash(key)].Remove(item);
             }
             return false;
         }
