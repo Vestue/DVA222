@@ -71,14 +71,14 @@ namespace Assignment3_HashDictionary
         {
             // if found return true and count--
 
+            // Försök hitta först
+            //if (_htable[GetHash(key)].RemoveAt(0)) return true;
             return false;
         }
 
         public bool Remove(KeyValuePair<int, string> item)
         {
-            // if found return true and count--
-
-            return false;
+            return _htable[GetHash(item.Key)].Remove(item);
         }
 
         public bool TryGetValue(int key, [MaybeNullWhen(false)] out string value)
