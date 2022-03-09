@@ -16,7 +16,7 @@ namespace Assignment3_HashDictionary
         // Teststuff
         ICollection<List<KeyValuePair<int, string>>> _table;
 
-        int count;
+        int _count;
 
         public string this[int key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -24,7 +24,7 @@ namespace Assignment3_HashDictionary
 
         public ICollection<string> Values => throw new NotImplementedException();
 
-        public int Count => count;
+        public int Count => _count;
 
         public bool IsReadOnly => false;
 
@@ -33,21 +33,21 @@ namespace Assignment3_HashDictionary
         public void Add(int key, string value)
         {
             if (ContainsKey(key)) return;
-            count++;
+            _count++;
             _htable[GetHash(key)].Add(new KeyValuePair<int, string>(key, value));
         }
 
         public void Add(KeyValuePair<int, string> item)
         {
             if (Contains(item)) return;
-            count++;
+            _count++;
             _htable[GetHash(item.Key)].Add(new KeyValuePair<int, string>(item.Key, item.Value));
         }
 
         public void Clear()
         {
             Array.Clear(_htable, 0, _tableSize);
-            count = 0;
+            _count = 0;
         }
 
         public bool Contains(KeyValuePair<int, string> item)
@@ -78,14 +78,23 @@ namespace Assignment3_HashDictionary
         {
             foreach( KeyValuePair<int, string> item in _htable[GetHash(key)])
             {
-                if (item.Key == key) return _htable[GetHash(key)].Remove(item);
+                if (item.Key == key)
+                {
+                    _count--;
+                    return _htable[GetHash(key)].Remove(item);
+                }
             }
             return false;
         }
 
         public bool Remove(KeyValuePair<int, string> item)
         {
-            return _htable[GetHash(item.Key)].Remove(item);
+            if (_htable[GetHash(item.Key)].Remove(item))
+            {
+                _count--;
+                return true;
+            }
+            return false;
         }
 
         public bool TryGetValue(int key, [MaybeNullWhen(false)] out string value)
