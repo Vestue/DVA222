@@ -13,6 +13,9 @@ namespace Assignment3_HashDictionary
         readonly int _tableSize = 10000; 
         List<KeyValuePair<int, string>>[] _htable = new List<KeyValuePair<int, string>>[10000];
 
+        // Teststuff
+        ICollection<List<KeyValuePair<int, string>>> _table;
+
         int count;
 
         public string this[int key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
