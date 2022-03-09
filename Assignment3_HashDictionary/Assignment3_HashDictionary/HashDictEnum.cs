@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assignment3_HashDictionary
 {
-    internal class HashDictEnum : IEnumerator<List<KeyValuePair<int, string>>>
+    internal class HashDictEnum : IEnumerator<KeyValuePair<int, string>>
     {
         public List<KeyValuePair<int, string>>[] _htable;
         int _position = -1;
@@ -16,9 +16,26 @@ namespace Assignment3_HashDictionary
         {
             _htable = table;
         }
-        public List<KeyValuePair<int, string>> Current => throw new NotImplementedException();
+        public KeyValuePair<int, string> Current
+        {
+            get
+            {
+                int count = 0;
+                KeyValuePair<int, string> current = new KeyValuePair<int, string>();
+                foreach (List<KeyValuePair<int, string>> chain in _htable)
+                {
+                    foreach (KeyValuePair<int, string> pair in chain)
+                    {
+                        current = pair;
+                        if (count == _position) break;
+                        count++;
+                    }
+                }
+                return current;
+            }
+        }
 
-        object IEnumerator.Current => throw new NotImplementedException();
+        object IEnumerator.Current => Current;
 
         public void Dispose()
         {
