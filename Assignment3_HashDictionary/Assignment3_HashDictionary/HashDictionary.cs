@@ -10,25 +10,41 @@ namespace Assignment3_HashDictionary
 {
     internal class HashDictionary : IDictionary<int, string>
     {
-        readonly int _tableSize = 10000; 
         List<KeyValuePair<int, string>>[] _htable = new List<KeyValuePair<int, string>>[10000];
-
-        // Teststuff
-        ICollection<List<KeyValuePair<int, string>>> _table;
 
         int _count = 0;
 
         public string this[int key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public ICollection<int> Keys => throw new NotImplementedException();
+        public ICollection<int> Keys
+        {
+            get
+            {
+                ICollection<int> keys = new List<int>();
+                foreach (List<KeyValuePair<int, string>> chain in _htable)
+                    foreach (KeyValuePair<int, string> pair in chain)
+                        keys.Add(pair.Key);
+                return keys;
+            }
+        }
 
-        public ICollection<string> Values => throw new NotImplementedException();
+        public ICollection<string> Values
+        {
+            get
+            {
+                ICollection<string> values = new List<string>();
+                foreach(List<KeyValuePair<int, string>> chain in _htable)
+                    foreach(KeyValuePair<int, string> pair in chain)
+                        values.Add(pair.Value);
+                return values;
+            }
+        }
 
         public int Count => _count;
 
         public bool IsReadOnly => false;
 
-        private int GetHash(int key) => key.GetHashCode() % _tableSize;
+        private int GetHash(int key) => key.GetHashCode() % _htable.Length;
 
         public void Add(int key, string value)
         {
@@ -46,7 +62,7 @@ namespace Assignment3_HashDictionary
 
         public void Clear()
         {
-            Array.Clear(_htable, 0, _tableSize);
+            Array.Clear(_htable, 0, _htable.Length);
             _count = 0;
         }
 
