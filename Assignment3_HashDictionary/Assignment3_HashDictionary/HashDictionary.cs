@@ -71,7 +71,7 @@ namespace Assignment3_HashDictionary
 
         public IEnumerator<KeyValuePair<int, string>> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new HashDictEnum(_htable);
         }
 
         public bool Remove(int key)
@@ -113,7 +113,7 @@ namespace Assignment3_HashDictionary
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return (IEnumerator) GetEnumerator();
         }
     }
 }
