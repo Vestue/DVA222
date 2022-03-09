@@ -84,7 +84,16 @@ namespace Assignment3_HashDictionary
 
         public bool TryGetValue(int key, [MaybeNullWhen(false)] out string value)
         {
-            throw new NotImplementedException();
+            foreach (KeyValuePair<int, string> item in _htable[GetHash(key)])
+            {
+                if (item.Key == key)
+                {
+                    value = item.Value;
+                    return true;
+                }
+            }
+            value = null;
+            return false;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
