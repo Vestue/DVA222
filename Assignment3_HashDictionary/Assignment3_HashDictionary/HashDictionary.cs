@@ -66,7 +66,16 @@ namespace Assignment3_HashDictionary
 
         public void CopyTo(KeyValuePair<int, string>[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            for(int i = arrayIndex; i < array.Length; i++)
+            {
+                foreach(List<KeyValuePair<int, string>> chain in _htable)
+                    foreach(KeyValuePair<int, string> pair in chain)
+                    {
+                        array[i] = pair;
+                        i++;
+                        if(i == array.Length) break;
+                    }
+            }
         }
 
         public IEnumerator<KeyValuePair<int, string>> GetEnumerator()
