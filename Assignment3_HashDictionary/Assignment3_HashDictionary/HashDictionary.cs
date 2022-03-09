@@ -23,7 +23,6 @@ namespace Assignment3_HashDictionary
 
         public int Count => count;
 
-        // Values themselves cannot be modified though?
         public bool IsReadOnly => false;
 
         private int GetHash(int key) => key.GetHashCode() % _tableSize;
