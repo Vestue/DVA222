@@ -29,12 +29,14 @@ namespace Assignment3_HashDictionary
 
         public void Add(int key, string value)
         {
+            if (ContainsKey(key)) return;
             count++;
             _htable[GetHash(key)].Add(new KeyValuePair<int, string>(key, value));
         }
 
         public void Add(KeyValuePair<int, string> item)
         {
+            if (Contains(item)) return;
             count++;
             _htable[GetHash(item.Key)].Add(new KeyValuePair<int, string>(item.Key, item.Value));
         }
