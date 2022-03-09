@@ -14,7 +14,19 @@ namespace Assignment3_HashDictionary
 
         int _count = 0;
 
-        public string this[int key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string this[int key]
+        {
+            get
+            {
+                foreach(KeyValuePair<int, string> kvp in _htable[GetHash(key)])
+                    if (kvp.Key == key) return kvp.Value;
+                return null; // Maybe change this
+            }
+            set
+            {
+                if(!ContainsKey(key)) Add(key, value);
+            }
+        }
 
         public ICollection<int> Keys
         {
