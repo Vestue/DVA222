@@ -69,10 +69,11 @@ namespace Assignment3_HashDictionary
 
         public bool Remove(int key)
         {
-            // if found return true and count--
-
-            // Försök hitta först
-            //if (_htable[GetHash(key)].RemoveAt(0)) return true;
+            if (ContainsKey(GetHash(key)))
+            {
+                _htable[GetHash(key)].RemoveAt(0);
+                return true;
+            }
             return false;
         }
 
