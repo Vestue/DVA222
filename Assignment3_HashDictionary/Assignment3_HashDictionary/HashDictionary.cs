@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Assignment3_HashDictionary
 {
-    internal class HashDictionary : IDictionary<int, string>, IEnumerator<KeyValuePair<int, string>>
+    internal class HashDictionary : IDictionary<int, string>
     {
         readonly int _tableSize = 10000; 
         List<KeyValuePair<int, string>>[] _htable = new List<KeyValuePair<int, string>>[10000];
@@ -27,10 +27,6 @@ namespace Assignment3_HashDictionary
         public int Count => _count;
 
         public bool IsReadOnly => false;
-
-        public KeyValuePair<int, string> Current => throw new NotImplementedException();
-
-        object IEnumerator.Current => throw new NotImplementedException();
 
         private int GetHash(int key) => key.GetHashCode() % _tableSize;
 
@@ -118,20 +114,6 @@ namespace Assignment3_HashDictionary
         IEnumerator IEnumerable.GetEnumerator()
         {
             throw new NotImplementedException();
-        }
-
-        public bool MoveNext()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Reset()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
         }
     }
 }
