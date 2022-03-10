@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace Assignment3_HashDictionary
 {
-    internal class HashDictEnum : IEnumerator<KeyValuePair<object, object>>
+    internal class HashDictEnum : IEnumerator<KeyValuePair<int, int>>
     {
-        public List<KeyValuePair<object, object>>[] _htable;
+        public List<KeyValuePair<int, int>>[] _htable;
         int _position = -1;
 
-        public HashDictEnum(List<KeyValuePair<object, object>>[] table)
+        public HashDictEnum(List<KeyValuePair<int, int>>[] table)
         {
             _htable = table;
         }
-        public KeyValuePair<object, object> Current
+        public KeyValuePair<int, int> Current
         {
             get
             {
                 int count = 0;
-                KeyValuePair<object, object> current = new KeyValuePair<object, object>();
-                foreach (List<KeyValuePair<object, object>> chain in _htable)
+                KeyValuePair<int, int> current = new KeyValuePair<int, int>();
+                foreach (List<KeyValuePair<int, int>> chain in _htable)
                 {
-                    foreach (KeyValuePair<object, object> pair in chain)
+                    foreach (KeyValuePair<int, int> pair in chain)
                     {
                         current = pair;
                         if (count == _position) break;
@@ -56,8 +56,8 @@ namespace Assignment3_HashDictionary
         private int Length()
         {
             int count = 0;
-            foreach(List<KeyValuePair<object, object>> chain in _htable)
-                foreach(KeyValuePair<object, object> pair in chain)
+            foreach(List<KeyValuePair<int, int>> chain in _htable)
+                foreach(KeyValuePair<int, int> pair in chain)
                     count++;
             return count;
         }

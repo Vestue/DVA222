@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace Assignment3_HashDictionary
 {
-    internal class HashDictionary : IDictionary<object, object>
+    internal class HashDictionary : IDictionary<int, int>
     {
-        List<KeyValuePair<object, object>>[] _htable = new List<KeyValuePair<object, object>>[10000];
+        List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[10000];
 
         int _count = 0;
 
-        public object this[object key]
+        public int this[int key]
         {
             get
             {
-                foreach(KeyValuePair<object, object> kvp in _htable[GetHash(key)])
+                foreach(KeyValuePair<int, int> kvp in _htable[GetHash(key)])
                     if (kvp.Key == key) return kvp.Value;
-                return null; // Maybe change this
+                return default(int);
             }
             set
             {
@@ -28,25 +28,25 @@ namespace Assignment3_HashDictionary
             }
         }
 
-        public ICollection<object> Keys
+        public ICollection<int> Keys
         {
             get
             {
-                ICollection<object> keys = new List<object>();
-                foreach (List<KeyValuePair<object, object>> chain in _htable)
-                    foreach (KeyValuePair<object, object> pair in chain)
+                ICollection<int> keys = new List<int>();
+                foreach (List<KeyValuePair<int, int>> chain in _htable)
+                    foreach (KeyValuePair<int, int> pair in chain)
                         keys.Add(pair.Key);
                 return keys;
             }
         }
 
-        public ICollection<object> Values
+        public ICollection<int> Values
         {
             get
             {
-                ICollection<object> values = new List<object>();
-                foreach(List<KeyValuePair<object, object>> chain in _htable)
-                    foreach(KeyValuePair<object, object> pair in chain)
+                ICollection<int> values = new List<int>();
+                foreach(List<KeyValuePair<int, int>> chain in _htable)
+                    foreach(KeyValuePair<int, int> pair in chain)
                         values.Add(pair.Value);
                 return values;
             }
@@ -58,18 +58,18 @@ namespace Assignment3_HashDictionary
 
         private int GetHash(object key) => key.GetHashCode() % _htable.Length;
 
-        public void Add(object key, object value)
+        public void Add(int key, int value)
         {
             if (ContainsKey(key)) return;
             _count++;
-            _htable[GetHash(key)].Add(new KeyValuePair<object, object>(key, value));
+            _htable[GetHash(key)].Add(new KeyValuePair<int, int>(key, value));
         }
 
-        public void Add(KeyValuePair<object, object> item)
+        public void Add(KeyValuePair<int, int> item)
         {
             if (Contains(item)) return;
             _count++;
-            _htable[GetHash(item.Key)].Add(new KeyValuePair<object, object>(item.Key, item.Value));
+            _htable[GetHash(item.Key)].Add(new KeyValuePair<int, int>(item.Key, item.Value));
         }
 
         public void Clear()
@@ -78,26 +78,27 @@ namespace Assignment3_HashDictionary
             _count = 0;
         }
 
-        public bool Contains(KeyValuePair<object, object> item)
+        public bool Contains(KeyValuePair<int, int> item)
         {
             return _htable[GetHash(item.Key)].Contains(item);
         }
 
-        public bool ContainsKey(object key)
+        public bool ContainsKey(int key)
         {
-            foreach(KeyValuePair<object, object> item in _htable[GetHash(key)])
+            if (key >= _htable.Length) return false;
+            foreach(KeyValuePair<int, int> item in _htable[GetHash(key)])
             {
                 if (item.Key == key) return true;
             }
             return false;
         }
 
-        public void CopyTo(KeyValuePair<object, object>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<int, int>[] array, int arrayIndex)
         {
             for(int i = arrayIndex; i < array.Length; i++)
             {
-                foreach(List<KeyValuePair<object, object>> chain in _htable)
-                    foreach(KeyValuePair<object, object> pair in chain)
+                foreach(List<KeyValuePair<int, int>> chain in _htable)
+                    foreach(KeyValuePair<int, int> pair in chain)
                     {
                         array[i] = pair;
                         i++;
@@ -106,14 +107,14 @@ namespace Assignment3_HashDictionary
             }
         }
 
-        public IEnumerator<KeyValuePair<object, object>> GetEnumerator()
+        public IEnumerator<KeyValuePair<int, int>> GetEnumerator()
         {
             return new HashDictEnum(_htable);
         }
 
-        public bool Remove(object key)
+        public bool Remove(int key)
         {
-            foreach( KeyValuePair<object, object> item in _htable[GetHash(key)])
+            foreach( KeyValuePair<int, int> item in _htable[GetHash(key)])
             {
                 if (item.Key == key)
                 {
@@ -124,7 +125,7 @@ namespace Assignment3_HashDictionary
             return false;
         }
 
-        public bool Remove(KeyValuePair<object, object> item)
+        public bool Remove(KeyValuePair<int, int> item)
         {
             if (_htable[GetHash(item.Key)].Remove(item))
             {
@@ -133,10 +134,15 @@ namespace Assignment3_HashDictionary
             }
             return false;
         }
-
-        public bool TryGetValue(object key, [MaybeNullWhen(false)] out object value)
+        
+        public bool TryGetValue(int key, [MaybeNullWhen(false)] out int value)
         {
-            foreach (KeyValuePair<object, object> item in _htable[GetHash(key)])
+            if (key >= _htable.Length)
+            {
+                value = default(int);
+                return false;
+            }
+            foreach (KeyValuePair<int, int> item in _htable[GetHash(key)])
             {
                 if (item.Key == key)
                 {
@@ -144,7 +150,7 @@ namespace Assignment3_HashDictionary
                     return true;
                 }
             }
-            value = null;
+            value = default(int);
             return false;
         }
 
