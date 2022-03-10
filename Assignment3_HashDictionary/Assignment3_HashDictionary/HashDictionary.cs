@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Assignment3_HashDictionary
 {
-    internal class HashDictionary : IDictionary<object, string>
+    internal class HashDictionary : IDictionary<object, object>
     {
-        List<KeyValuePair<object, string>>[] _htable = new List<KeyValuePair<object, string>>[10000];
+        List<KeyValuePair<object, object>>[] _htable = new List<KeyValuePair<object, object>>[10000];
 
         int _count = 0;
 
-        public string this[object key]
+        public object this[object key]
         {
             get
             {
-                foreach(KeyValuePair<object, string> kvp in _htable[GetHash(key)])
+                foreach(KeyValuePair<object, object> kvp in _htable[GetHash(key)])
                     if (kvp.Key == key) return kvp.Value;
                 return null; // Maybe change this
             }
@@ -33,20 +33,20 @@ namespace Assignment3_HashDictionary
             get
             {
                 ICollection<object> keys = new List<object>();
-                foreach (List<KeyValuePair<object, string>> chain in _htable)
-                    foreach (KeyValuePair<object, string> pair in chain)
+                foreach (List<KeyValuePair<object, object>> chain in _htable)
+                    foreach (KeyValuePair<object, object> pair in chain)
                         keys.Add(pair.Key);
                 return keys;
             }
         }
 
-        public ICollection<string> Values
+        public ICollection<object> Values
         {
             get
             {
-                ICollection<string> values = new List<string>();
-                foreach(List<KeyValuePair<object, string>> chain in _htable)
-                    foreach(KeyValuePair<object, string> pair in chain)
+                ICollection<object> values = new List<object>();
+                foreach(List<KeyValuePair<object, object>> chain in _htable)
+                    foreach(KeyValuePair<object, object> pair in chain)
                         values.Add(pair.Value);
                 return values;
             }
@@ -58,18 +58,18 @@ namespace Assignment3_HashDictionary
 
         private int GetHash(object key) => key.GetHashCode() % _htable.Length;
 
-        public void Add(object key, string value)
+        public void Add(object key, object value)
         {
             if (ContainsKey(key)) return;
             _count++;
-            _htable[GetHash(key)].Add(new KeyValuePair<object, string>(key, value));
+            _htable[GetHash(key)].Add(new KeyValuePair<object, object>(key, value));
         }
 
-        public void Add(KeyValuePair<object, string> item)
+        public void Add(KeyValuePair<object, object> item)
         {
             if (Contains(item)) return;
             _count++;
-            _htable[GetHash(item.Key)].Add(new KeyValuePair<object, string>(item.Key, item.Value));
+            _htable[GetHash(item.Key)].Add(new KeyValuePair<object, object>(item.Key, item.Value));
         }
 
         public void Clear()
@@ -78,26 +78,26 @@ namespace Assignment3_HashDictionary
             _count = 0;
         }
 
-        public bool Contains(KeyValuePair<object, string> item)
+        public bool Contains(KeyValuePair<object, object> item)
         {
             return _htable[GetHash(item.Key)].Contains(item);
         }
 
         public bool ContainsKey(object key)
         {
-            foreach(KeyValuePair<object, string> item in _htable[GetHash(key)])
+            foreach(KeyValuePair<object, object> item in _htable[GetHash(key)])
             {
                 if (item.Key == key) return true;
             }
             return false;
         }
 
-        public void CopyTo(KeyValuePair<object, string>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<object, object>[] array, int arrayIndex)
         {
             for(int i = arrayIndex; i < array.Length; i++)
             {
-                foreach(List<KeyValuePair<object, string>> chain in _htable)
-                    foreach(KeyValuePair<object, string> pair in chain)
+                foreach(List<KeyValuePair<object, object>> chain in _htable)
+                    foreach(KeyValuePair<object, object> pair in chain)
                     {
                         array[i] = pair;
                         i++;
@@ -106,14 +106,14 @@ namespace Assignment3_HashDictionary
             }
         }
 
-        public IEnumerator<KeyValuePair<object, string>> GetEnumerator()
+        public IEnumerator<KeyValuePair<object, object>> GetEnumerator()
         {
             return new HashDictEnum(_htable);
         }
 
         public bool Remove(object key)
         {
-            foreach( KeyValuePair<object, string> item in _htable[GetHash(key)])
+            foreach( KeyValuePair<object, object> item in _htable[GetHash(key)])
             {
                 if (item.Key == key)
                 {
@@ -124,7 +124,7 @@ namespace Assignment3_HashDictionary
             return false;
         }
 
-        public bool Remove(KeyValuePair<object, string> item)
+        public bool Remove(KeyValuePair<object, object> item)
         {
             if (_htable[GetHash(item.Key)].Remove(item))
             {
@@ -134,9 +134,9 @@ namespace Assignment3_HashDictionary
             return false;
         }
 
-        public bool TryGetValue(object key, [MaybeNullWhen(false)] out string value)
+        public bool TryGetValue(object key, [MaybeNullWhen(false)] out object value)
         {
-            foreach (KeyValuePair<object, string> item in _htable[GetHash(key)])
+            foreach (KeyValuePair<object, object> item in _htable[GetHash(key)])
             {
                 if (item.Key == key)
                 {

@@ -1,2 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using Assignment3_HashDictionary;
+using HashtableTester;
+
+IDictionary<object, object> d = new HashDictionary();
+TestDriver.Instance.Run((IDictionary<int, int>)d, 10000);
