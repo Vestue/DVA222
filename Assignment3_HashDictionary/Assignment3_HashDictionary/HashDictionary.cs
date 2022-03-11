@@ -113,6 +113,7 @@ namespace Assignment3_HashDictionary
                         array[i] = pair;
                         i++;
                     }
+                if (i == _count) break;
             }
         }
 
