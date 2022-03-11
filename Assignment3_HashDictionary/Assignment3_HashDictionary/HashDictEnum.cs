@@ -18,7 +18,10 @@ namespace Assignment3_HashDictionary
             get
             {
                 // Current is undefined when it's not within range.
-                //if (_position == 0) throw new InvalidOperationException();
+                if (_count == 0)
+                {
+                    throw new InvalidOperationException("Operation not possible");
+                }
 
                 int count = 0;
                 KeyValuePair<int, int> current = new KeyValuePair<int, int>();
