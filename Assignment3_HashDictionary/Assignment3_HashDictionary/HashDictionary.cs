@@ -62,14 +62,14 @@ namespace Assignment3_HashDictionary
 
         public void Add(int key, int value)
         {
-            if (ContainsKey(key)) return;
+            if (ContainsKey(key)) throw new ArgumentException(String.Format("{0} already exists as a key in the table."));
             _count++;
             _htable[GetHash(key)].Add(new KeyValuePair<int, int>(key, value));
         }
 
         public void Add(KeyValuePair<int, int> item)
         {
-            if (Contains(item)) return;
+            if (Contains(item)) throw new ArgumentException(String.Format("{0} already exists as a key in the table."));
             _count++;
             _htable[GetHash(item.Key)].Add(new KeyValuePair<int, int>(item.Key, item.Value));
         }
