@@ -5,7 +5,7 @@ namespace Assignment3_HashDictionary
     internal class HashDictEnum : IEnumerator<KeyValuePair<int, int>>
     {
         private List<KeyValuePair<int, int>>[] _htable;
-        int _position = - 1;
+        int _position = -1;
         int _count;
 
         public HashDictEnum(List<KeyValuePair<int, int>>[] table)

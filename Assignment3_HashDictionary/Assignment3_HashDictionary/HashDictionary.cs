@@ -16,7 +16,6 @@ namespace Assignment3_HashDictionary
             }
         }
 
-        // Setter does not work as it should replace the value
         public int this[int key]
         {
             get
@@ -110,9 +109,9 @@ namespace Assignment3_HashDictionary
                 foreach(List<KeyValuePair<int, int>> chain in _htable)
                     foreach(KeyValuePair<int, int> pair in chain)
                     {
+                        if (i == array.Length) break;
                         array[i] = pair;
                         i++;
-                        if(i == array.Length) break;
                     }
             }
         }
