@@ -70,7 +70,7 @@ namespace Assignment3_HashDictionary
 
         public void Add(int key, int value)
         {
-            if (ContainsKey(key)) throw new ArgumentException("Key already exists in the table.");
+            if (ContainsKey(key)) return;//throw new ArgumentException("Key already exists in the table.");
             _count++;
             _htable[GetHash(key)].Add(new KeyValuePair<int, int>(key, value));
         }
@@ -115,6 +115,7 @@ namespace Assignment3_HashDictionary
                     }
                 if (i == _count) break;
             }
+            PrintTable();
         }
 
         public IEnumerator<KeyValuePair<int, int>> GetEnumerator()
@@ -169,6 +170,15 @@ namespace Assignment3_HashDictionary
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public void PrintTable()
+        {
+            foreach(var chain in _htable)
+                foreach (var kvp in chain)
+                {
+                    Console.WriteLine(kvp.Key.ToString(), kvp.Value.ToString());
+                }
         }
     }
 }
