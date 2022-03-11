@@ -16,6 +16,7 @@ namespace Assignment3_HashDictionary
             }
         }
 
+        // Setter does not work as it should replace the value
         public int this[int key]
         {
             get
@@ -26,7 +27,15 @@ namespace Assignment3_HashDictionary
             }
             set
             {
-                if(!ContainsKey(key)) Add(key, value);
+                if (ContainsKey(key))
+                {
+                    Remove(key);
+                    Add(key, value);
+                }
+                else
+                {
+                    Add(key, value);
+                }
             }
         }
 
@@ -62,14 +71,14 @@ namespace Assignment3_HashDictionary
 
         public void Add(int key, int value)
         {
-            if (ContainsKey(key)) throw new ArgumentException(String.Format("{0} already exists as a key in the table."));
+            if (ContainsKey(key)) throw new ArgumentException("Key already exists in the table.");
             _count++;
             _htable[GetHash(key)].Add(new KeyValuePair<int, int>(key, value));
         }
 
         public void Add(KeyValuePair<int, int> item)
         {
-            if (Contains(item)) throw new ArgumentException(String.Format("{0} already exists as a key in the table."));
+            if (Contains(item)) throw new ArgumentException("Key already exists in the table.");
             _count++;
             _htable[GetHash(item.Key)].Add(new KeyValuePair<int, int>(item.Key, item.Value));
         }
