@@ -21,8 +21,8 @@ namespace Assignment3_HashDictionary
                 {
                     foreach (KeyValuePair<int, int> pair in chain)
                     {
-                        current = pair;
                         if (count == _position) break;
+                        current = pair;
                         count++;
                     }
                 }
