@@ -38,6 +38,8 @@ namespace Assignment3_HashDictionary
 
         public bool MoveNext()
         {
+			// If this works I will cry
+			if (_htable.Count() == 0) return true;
             _position++;
             return (_position < _htable.Count());
         }
