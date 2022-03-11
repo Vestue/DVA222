@@ -6,15 +6,20 @@ namespace Assignment3_HashDictionary
     {
         private List<KeyValuePair<int, int>>[] _htable;
         int _position = - 1;
+        int _count;
 
         public HashDictEnum(List<KeyValuePair<int, int>>[] table)
         {
             _htable = table;
+            _count = Length();
         }
         public KeyValuePair<int, int> Current
         {
             get
             {
+                // Current is undefined when it's not within range.
+                //if (_position == 0) throw new InvalidOperationException();
+
                 int count = 0;
                 KeyValuePair<int, int> current = new KeyValuePair<int, int>();
                 foreach (List<KeyValuePair<int, int>> chain in _htable)
@@ -38,15 +43,26 @@ namespace Assignment3_HashDictionary
 
         public bool MoveNext()
         {
-			// If this works I will cry
-			if (_htable.Count() == 0) return true;
+			//if (_position >= _count) throw new InvalidOperationException();
+
+			//if (_htable.Count() == 0) return true;
             _position++;
             return (_position < _htable.Count());
         }
 
         public void Reset()
         {
+            //if (_position >= _count) throw new InvalidOperationException();
             _position = -1;
+        }
+
+        private int Length()
+        {
+            int count = 0;
+            foreach (List<KeyValuePair<int, int>> chain in _htable)
+                foreach (KeyValuePair<int, int> pair in chain)
+                    count++;
+            return count;
         }
     }
 }
