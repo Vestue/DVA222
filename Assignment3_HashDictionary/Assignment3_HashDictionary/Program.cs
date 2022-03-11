@@ -2,4 +2,4 @@
 using HashtableTester;
 
 IDictionary<int, int> d = new HashDictionary();
-TestDriver.Instance.Run((IDictionary<int, int>)d, 10000);
+TestDriver.Instance.Run(d, 10000);

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
 namespace Assignment3_HashDictionary
 {
@@ -12,7 +6,7 @@ namespace Assignment3_HashDictionary
     {
         List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[10000];
 
-        int _count = 0;
+        int _count;
 
         public int this[int key]
         {
@@ -135,7 +129,7 @@ namespace Assignment3_HashDictionary
             return false;
         }
         
-        public bool TryGetValue(int key, [MaybeNullWhen(false)] out int value)
+        public bool TryGetValue(int key,  out int value)
         {
             if (key >= _htable.Length)
             {
@@ -156,7 +150,7 @@ namespace Assignment3_HashDictionary
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (IEnumerator) GetEnumerator();
+            return GetEnumerator();
         }
     }
 }
