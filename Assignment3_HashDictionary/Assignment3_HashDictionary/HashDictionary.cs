@@ -4,9 +4,17 @@ namespace Assignment3_HashDictionary
 {
     internal class HashDictionary : IDictionary<int, int>
     {
-        List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[10000];
+        private List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[10000];
 
         int _count;
+
+        public HashDictionary()
+        {
+            for (int i = 0; i < _htable.Length; i++)
+            {
+                _htable[i] = new List<KeyValuePair<int, int>>();
+            }
+        }
 
         public int this[int key]
         {
@@ -79,7 +87,6 @@ namespace Assignment3_HashDictionary
 
         public bool ContainsKey(int key)
         {
-            if (key >= _htable.Length) return false;
             foreach(KeyValuePair<int, int> item in _htable[GetHash(key)])
             {
                 if (item.Key == key) return true;
@@ -108,6 +115,7 @@ namespace Assignment3_HashDictionary
 
         public bool Remove(int key)
         {
+            if (!ContainsKey(key)) return false;
             foreach( KeyValuePair<int, int> item in _htable[GetHash(key)])
             {
                 if (item.Key == key)
@@ -121,6 +129,7 @@ namespace Assignment3_HashDictionary
 
         public bool Remove(KeyValuePair<int, int> item)
         {
+            if (!Contains(item)) return false;
             if (_htable[GetHash(item.Key)].Remove(item))
             {
                 _count--;
@@ -131,7 +140,7 @@ namespace Assignment3_HashDictionary
         
         public bool TryGetValue(int key,  out int value)
         {
-            if (key >= _htable.Length)
+            if (!ContainsKey(key))
             {
                 value = default(int);
                 return false;
