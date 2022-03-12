@@ -4,7 +4,7 @@ namespace Assignment3_HashDictionary
 {
     internal class HashDictionary : IDictionary<int, int>
     {
-        private List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[10000];
+        private List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[100];
 
         int _count;
 
