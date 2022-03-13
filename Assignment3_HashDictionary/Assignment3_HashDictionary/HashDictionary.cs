@@ -4,13 +4,14 @@ namespace Assignment3_HashDictionary
 {
     internal class HashDictionary : IDictionary<int, int>, IDictionary<GeoLocation, string>
     {
-        private List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[10000];
-        private List<KeyValuePair<GeoLocation, string>>[] _geoTable = new List<KeyValuePair<GeoLocation, string>>[10000];
-        int _count;
+        private static readonly int _arraySize = 10000;
+        private List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[_arraySize];
+        private List<KeyValuePair<GeoLocation, string>>[] _geoTable = new List<KeyValuePair<GeoLocation, string>>[_arraySize];
+        private int _count;
 
         public HashDictionary()
         {
-            for (int i = 0; i < _htable.Length; i++)
+            for (int i = 0; i < _arraySize; i++)
             {
                 _htable[i] = new List<KeyValuePair<int, int>>();
                 _geoTable[i] = new List<KeyValuePair<GeoLocation, string>>();
@@ -113,7 +114,7 @@ namespace Assignment3_HashDictionary
 
         public bool IsReadOnly => false;
 
-        private int GetHash(object key) => key.GetHashCode() % _htable.Length;
+        private int GetHash(object key) => key.GetHashCode() % _arraySize;
 
         public void Add(int key, int value)
         {
