@@ -4,7 +4,7 @@ namespace Assignment3_HashDictionary
 {
     internal class HashDictionary : IDictionary<int, int>
     {
-        private List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[10];
+        private List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[10000];
 
         int _count;
 
@@ -70,7 +70,7 @@ namespace Assignment3_HashDictionary
 
         public void Add(int key, int value)
         {
-            if (ContainsKey(key)) return;//throw new ArgumentException("Key already exists in the table.");
+            if (ContainsKey(key)) throw new ArgumentException("Key already exists in the table.");
             _count++;
             _htable[GetHash(key)].Add(new KeyValuePair<int, int>(key, value));
         }

@@ -24,15 +24,21 @@ namespace Assignment3_HashDictionary
                 }
 
                 int count = 0;
+                bool runLoop = true;
                 KeyValuePair<int, int> current = new KeyValuePair<int, int>();
                 foreach (List<KeyValuePair<int, int>> chain in _htable)
                 {
                     foreach (KeyValuePair<int, int> pair in chain)
                     {
-                        if (count == _position) break;
-                        current = pair;
+                        if (count == _position)
+                        {
+                            current = pair;
+                            runLoop = false;
+                            break;
+                        }
                         count++;
                     }
+                    if (runLoop == false) break;
                 }
                 return current;
             }
@@ -50,7 +56,7 @@ namespace Assignment3_HashDictionary
 
 			//if (_htable.Count() == 0) return true;
             _position++;
-            return (_position < _htable.Count());
+            return (_position < _count);
         }
 
         public void Reset()

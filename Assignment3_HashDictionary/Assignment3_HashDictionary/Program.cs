@@ -3,7 +3,9 @@ using HashtableTester;
 
 IDictionary<int, int> d = new HashDictionary();
 Random random = new Random();
-//TestDriver.Instance.Run(d, 10000);
+TestDriver.Instance.Run(d, 10000);
+
+/*
 for (int i = 0; i < 5; i++)
 {
     d.Add(random.Next(1, 500000), random.Next(4242, 4000000));
@@ -31,3 +33,4 @@ foreach (var item in arr)
 {
     Console.Write(item.ToString());
 }
+*/
