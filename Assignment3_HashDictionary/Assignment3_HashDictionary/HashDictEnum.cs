@@ -17,6 +17,7 @@ namespace Assignment3_HashDictionary
 
         public HashDictEnum(List<KeyValuePair<GeoLocation, string>>[] geoTable)
         {
+            _geoTable = geoTable;
             _count = LengthGeo();
         }
         
