@@ -4,7 +4,7 @@ namespace Assignment3_HashDictionary
 {
     internal class HashDictEnum : IEnumerator<KeyValuePair<int, int>>
     {
-        private List<KeyValuePair<int, int>>[] _htable;
+        List<KeyValuePair<int, int>>[] _htable;
         int _position = -1;
         int _count;
 
@@ -17,7 +17,6 @@ namespace Assignment3_HashDictionary
         {
             get
             {
-                // Current is undefined when it's not within range.
                 if (_count == 0)
                 {
                     throw new InvalidOperationException("Operation not possible");
@@ -52,16 +51,12 @@ namespace Assignment3_HashDictionary
 
         public bool MoveNext()
         {
-			//if (_position >= _count) throw new InvalidOperationException();
-
-			//if (_htable.Count() == 0) return true;
             _position++;
             return (_position < _count);
         }
 
         public void Reset()
         {
-            //if (_position >= _count) throw new InvalidOperationException();
             _position = -1;
         }
 

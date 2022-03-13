@@ -5,7 +5,6 @@ namespace Assignment3_HashDictionary
     internal class HashDictionary : IDictionary<int, int>
     {
         private List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[10000];
-
         int _count;
 
         public HashDictionary()
@@ -115,7 +114,6 @@ namespace Assignment3_HashDictionary
                     }
                 if (i == _count) break;
             }
-            PrintTable();
         }
 
         public IEnumerator<KeyValuePair<int, int>> GetEnumerator()
@@ -170,15 +168,6 @@ namespace Assignment3_HashDictionary
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        public void PrintTable()
-        {
-            foreach(var chain in _htable)
-                foreach (var kvp in chain)
-                {
-                    Console.WriteLine($" [ {kvp.Key.ToString()}, {kvp.Value.ToString()} ] ");
-                }
         }
     }
 }
