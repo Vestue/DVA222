@@ -24,10 +24,10 @@ while (enueemerator.MoveNext())
 
 
 KeyValuePair<int, int>[] arr = new KeyValuePair<int, int>[10];
-//d.CopyTo(arr, 0);
+d.CopyTo(arr, 0);
 
-/*
+
 foreach (var item in arr)
 {
     Console.Write(item.ToString());
-}*/
+}

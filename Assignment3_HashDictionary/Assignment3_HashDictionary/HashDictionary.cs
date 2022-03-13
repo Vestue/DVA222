@@ -4,7 +4,7 @@ namespace Assignment3_HashDictionary
 {
     internal class HashDictionary : IDictionary<int, int>
     {
-        private List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[100];
+        private List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[10];
 
         int _count;
 
@@ -177,7 +177,7 @@ namespace Assignment3_HashDictionary
             foreach(var chain in _htable)
                 foreach (var kvp in chain)
                 {
-                    Console.WriteLine(kvp.Key.ToString(), kvp.Value.ToString());
+                    Console.WriteLine($" [ {kvp.Key.ToString()}, {kvp.Value.ToString()} ] ");
                 }
         }
     }

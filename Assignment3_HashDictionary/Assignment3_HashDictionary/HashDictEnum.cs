@@ -63,8 +63,7 @@ namespace Assignment3_HashDictionary
         {
             int count = 0;
             foreach (List<KeyValuePair<int, int>> chain in _htable)
-                foreach (KeyValuePair<int, int> pair in chain)
-                    count++;
+                count += chain.Count;
             return count;
         }
     }
