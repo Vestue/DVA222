@@ -1,13 +1,22 @@
 ﻿namespace Assignment3_HashDictionary
 {
-    internal class GeoLocation
+    internal class GeoLocation : IEquatable<GeoLocation>
     {
-        public int Longitude { get; private set; }
-        public int Latitude { get; private set; }
+        public float Longitude { get; private set; }
+        public float Latitude { get; private set; }
         public GeoLocation(int longitude, int latitude)
         {
             Longitude = longitude;
             Latitude = latitude;
+        }
+
+        public bool Equals(GeoLocation? other)
+        {
+            if (other == null) return false;
+
+            if (Longitude != other.Longitude) return false;
+            if (Latitude != other.Latitude) return false;
+            return true;
         }
     }
 }
