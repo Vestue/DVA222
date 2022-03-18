@@ -13,10 +13,8 @@
         public bool Equals(GeoLocation? other)
         {
             if (other == null) return false;
-
-            if (Longitude != other.Longitude) return false;
-            if (Latitude != other.Latitude) return false;
-            return true;
+            if (Longitude == other.Longitude && Latitude == other.Latitude) return true;
+            return false;
         }
     }
 }
