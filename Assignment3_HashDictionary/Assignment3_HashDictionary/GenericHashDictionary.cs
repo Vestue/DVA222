@@ -123,32 +123,71 @@ namespace Assignment3_HashDictionary
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            for (int i = arrayIndex; i < array.Length; i++)
+            {
+                foreach(List<KeyValuePair<TKey, TValue>> chain in _hashTable)
+                    foreach(KeyValuePair<TKey, TValue> pair in chain)
+                    {
+                        if (i == array.Length) break;
+                        array[i] = pair;
+                        i++;
+                    }
+                if (i == _nodeCount) break;
+            }
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new GenericHashDictEnum(_hashTable);
         }
 
         public bool Remove(TKey key)
         {
-            throw new NotImplementedException();
+            if (key == null) return false;
+            foreach(KeyValuePair<TKey, TValue> pair in _hashTable[GetIndex(key)])
+            {
+                if (key.Equals(pair.Key))
+                {
+                    _nodeCount--;
+                    return _hashTable[GetIndex(key)].Remove(pair);
+                }
+            }
+            return false;
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            if (item.Key == null) return false;
+            if (_hashTable[GetIndex(item.Key)].Remove(item))
+            {
+                _nodeCount--;
+                return true;
+            }
+            return false;
         }
 
         public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
         {
-            throw new NotImplementedException();
+            if (!ContainsKey(key))
+            {
+                value = default(TValue);
+                return false;
+            }
+            foreach(KeyValuePair<TKey, TValue> pair in _hashTable[GetIndex(key)])
+            {
+                if (key.Equals(pair.Key))
+                {
+                    value = pair.Value;
+                    return true;
+                }
+            }
+            value = default(TValue);
+            return false;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
     }
 }
