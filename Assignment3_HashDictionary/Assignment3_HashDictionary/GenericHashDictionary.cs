@@ -24,13 +24,57 @@ namespace Assignment3_HashDictionary
         // private List<KeyValuePair<K, V>> Find(K key), kan returnera null om ingen nyckel hittas
         // uint GetIndex(K key)
 
-        private int GetIndex(TKey key) => key.GetHashCode() % _arraySize;
+        private int GetIndex(TKey key)
+        {
+            if (key == null) return -1;
+            return key.GetHashCode() % _arraySize;
+        }
 
-        public TValue this[TKey key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public TValue this[TKey key]
+        {
+            get
+            {
+                foreach(KeyValuePair<TKey, TValue> pair in _hashTable[GetIndex(key)])
+                    if (key.Equals(pair.Value)) return pair.Value;
+                return default(TValue);
+            }
+            set
+            {
+                if (ContainsKey(key))
+                {
+                    Remove(key);
+                    Add(key, value);
+                }
+                else
+                {
+                    Add(key, value);
+                }
+            }
+        }
 
-        public ICollection<TKey> Keys => throw new NotImplementedException();
+        public ICollection<TKey> Keys
+        {
+            get
+            {
+                ICollection<TKey> keys = new List<TKey>();
+                foreach(List<KeyValuePair<TKey, TValue>> chain in _hashTable)
+                    foreach (KeyValuePair<TKey, TValue> pair in chain)
+                        keys.Add(pair.Key);
+                return keys;
+            }
+        }
 
-        public ICollection<TValue> Values => throw new NotImplementedException();
+        public ICollection<TValue> Values
+        {
+            get
+            {
+                ICollection<TValue> values = new List<TValue>();
+                foreach(List<KeyValuePair<TKey, TValue>> chain in _hashTable)
+                    foreach(KeyValuePair<TKey, TValue> pair in chain)
+                        values.Add(pair.Value);
+                return values;
+            }
+        }
 
         public int Count => _nodeCount;
 
@@ -38,15 +82,19 @@ namespace Assignment3_HashDictionary
 
         public void Add(TKey key, TValue value)
         {
-            throw new NotImplementedException();
+            if (ContainsKey(key)) throw new ArgumentException("Key already exists in the hash dictionary.");
+            _nodeCount++;
+            _hashTable[GetIndex(key)].Add(new KeyValuePair<TKey, TValue>(key, value));
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            if (Contains(item)) throw new ArgumentException("Key already exists in hash dictionary.");
+            _nodeCount++;
+            _hashTable[GetIndex(item.Key)].Add(new KeyValuePair<TKey, TValue>(item.Key, item.Value));
         }
 
-        private KeyValuePair<TKey, TValue> GetKey(TKey key)
+        private KeyValuePair<TKey, TValue> FindKey(TKey key)
         {
             if (key == null) return default(KeyValuePair<TKey, TValue>);
             foreach (KeyValuePair<TKey, TValue> pair in _hashTable[GetIndex(key)])
@@ -54,14 +102,10 @@ namespace Assignment3_HashDictionary
             return default(KeyValuePair<TKey, TValue>);
         }
 
-        private void SetKey(TKey key)
-        {
-
-        }
-
         public void Clear()
         {
-            throw new NotImplementedException();
+            Array.Clear(_hashTable, 0, _hashTable.Length);
+            _nodeCount = 0;
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
