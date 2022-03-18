@@ -34,9 +34,12 @@ namespace Assignment3_HashDictionary
         {
             get
             {
-                foreach(KeyValuePair<TKey, TValue> pair in _hashTable[GetIndex(key)])
-                    if (key.Equals(pair.Value)) return pair.Value;
-                return default(TValue);
+                if (key != null)
+                {
+                    foreach (KeyValuePair<TKey, TValue> pair in _hashTable[GetIndex(key)])
+                        if (key.Equals(pair.Value)) return pair.Value;
+                }
+                return default(TValue)!;
             }
             set
             {
@@ -138,7 +141,7 @@ namespace Assignment3_HashDictionary
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            return new GenericHashDictEnum(_hashTable);
+            return new GenericHashDictEnum<TKey, TValue>(_hashTable);
         }
 
         public bool Remove(TKey key)
@@ -168,7 +171,7 @@ namespace Assignment3_HashDictionary
 
         public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
         {
-            if (!ContainsKey(key))
+            if (key == null)
             {
                 value = default(TValue);
                 return false;

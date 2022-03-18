@@ -9,15 +9,14 @@ namespace Assignment3_HashDictionary
 {
     internal class GenericHashDictEnum<TKey, TValue> : IEnumerator<KeyValuePair<TKey, TValue>>
     {
-        private List<KeyValuePair<TKey, TValue>>[]? _hashTable;
+        private List<KeyValuePair<TKey, TValue>>[] _hashTable;
        
         private int _nodeCount;
         private int _position = -1;
-        public GenericHashDictEnum(List<KeyValuePair<TKey, TValue>>[]? hashTable)
+        public GenericHashDictEnum(List<KeyValuePair<TKey, TValue>>[] hashTable)
         {
-            if (hashTable == null) return;
             _hashTable = hashTable;
-            GetLength();
+            _nodeCount = GetLength();
         }
 
         private int GetLength()
