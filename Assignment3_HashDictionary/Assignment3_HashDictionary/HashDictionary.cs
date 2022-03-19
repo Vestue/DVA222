@@ -20,10 +20,6 @@ namespace Assignment3_HashDictionary
                 _hashTable[i] = new List<KeyValuePair<TKey, TValue>>();
         }
 
-        // Implementera metoder från föreläsnings-instruktioner
-        // private List<KeyValuePair<K, V>> Find(K key), kan returnera null om ingen nyckel hittas
-        // uint GetIndex(K key)
-
         private int GetIndex(TKey key)
         {
             if (key == null) return -1;
