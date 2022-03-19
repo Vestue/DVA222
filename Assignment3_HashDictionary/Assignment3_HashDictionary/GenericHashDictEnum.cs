@@ -51,8 +51,8 @@ namespace Assignment3_HashDictionary
                             runLoop = false;
                             break;
                         }
+                        count++;
                     }
-                    count++;
                     if (runLoop == false) break;
                 }
                 return tempPair;
