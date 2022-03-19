@@ -1,44 +1,53 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Assignment3_HashDictionary
 {
-    internal class HashDictEnum : IEnumerator<KeyValuePair<int, int>>, IEnumerator<KeyValuePair<GeoLocation, string>>
+    internal class HashDictEnum<TKey, TValue> : IEnumerator<KeyValuePair<TKey, TValue>>
     {
-        List<KeyValuePair<int, int>>[]? _htable;
-        List<KeyValuePair<GeoLocation, string>>[]? _geoTable;
-        int _position = -1;
-        int _count;
-
-        public HashDictEnum(List<KeyValuePair<int, int>>[] table)
+        private List<KeyValuePair<TKey, TValue>>[] _hashTable;
+       
+        private int _nodeCount;
+        private int _position = -1;
+        public HashDictEnum(List<KeyValuePair<TKey, TValue>>[] hashTable)
         {
-            _htable = table;
-            _count = Length();
+            _hashTable = hashTable;
+            _nodeCount = GetLength();
         }
 
-        public HashDictEnum(List<KeyValuePair<GeoLocation, string>>[] geoTable)
+        private int GetLength()
         {
-            _geoTable = geoTable;
-            _count = LengthGeo();
+            int count = 0;
+            if (_hashTable != null)
+            {
+                foreach (List<KeyValuePair<TKey, TValue>> chain in _hashTable)
+                    count += chain.Count;
+            }
+            return count;
         }
-        
-        public KeyValuePair<int, int> Current
+
+        public KeyValuePair<TKey, TValue> Current
         {
             get
             {
-                if (_count == 0)
+                if (_nodeCount == 0)
                 {
-                    throw new InvalidOperationException("Operation not possible");
+                    throw new InvalidOperationException("Operation not possible.");
                 }
                 int count = 0;
                 bool runLoop = true;
-                KeyValuePair<int, int> current = new KeyValuePair<int, int>();
-                foreach (List<KeyValuePair<int, int>> chain in _htable)
+                KeyValuePair<TKey, TValue> tempPair = new KeyValuePair<TKey, TValue>();
+                foreach (List<KeyValuePair<TKey, TValue>> chain in _hashTable)
                 {
-                    foreach (KeyValuePair<int, int> pair in chain)
+                    foreach (KeyValuePair<TKey, TValue> pair in chain)
                     {
                         if (count == _position)
                         {
-                            current = pair;
+                            tempPair = pair;
                             runLoop = false;
                             break;
                         }
@@ -46,69 +55,25 @@ namespace Assignment3_HashDictionary
                     }
                     if (runLoop == false) break;
                 }
-                return current;
+                return tempPair;
             }
         }
 
         object IEnumerator.Current => Current;
 
-        public void Dispose()
+       public void Dispose()
         {
         }
 
         public bool MoveNext()
         {
             _position++;
-            return (_position < _count);
+            return (_position < _nodeCount);
         }
 
         public void Reset()
         {
             _position = -1;
-        }
-
-        KeyValuePair<GeoLocation, string> IEnumerator<KeyValuePair<GeoLocation, string>>.Current
-        {
-            get
-            {
-                if (_count == 0)
-                {
-                    throw new InvalidOperationException("Operation not possible");
-                }
-                int count = 0;
-                bool runLoop = true;
-                KeyValuePair<GeoLocation, string> current = new KeyValuePair<GeoLocation, string>();
-                foreach (List<KeyValuePair<GeoLocation, string>> chain in _geoTable)
-                {
-                    foreach (KeyValuePair<GeoLocation, string> pair in chain)
-                    {
-                        if (count == _position)
-                        {
-                            current = pair;
-                            runLoop = false;
-                            break;
-                        }
-                        count++;
-                    }
-                    if (runLoop == false) break;
-                }
-                return current;
-            }
-        }
-
-        private int Length()
-        {
-            int count = 0;
-            foreach (List<KeyValuePair<int, int>> chain in _htable)
-                count += chain.Count;
-            return count;
-        }
-        private int LengthGeo()
-        {
-            int count = 0; 
-            foreach (List<KeyValuePair<GeoLocation, string>> chain in _geoTable)
-                count += chain.Count;
-            return count;
         }
     }
 }

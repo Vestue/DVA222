@@ -1,30 +1,45 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Assignment3_HashDictionary
 {
-    internal class HashDictionary : IDictionary<int, int>, IDictionary<GeoLocation, string>
+    internal class HashDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
         private static readonly int _arraySize = 10000;
-        private List<KeyValuePair<int, int>>[] _htable = new List<KeyValuePair<int, int>>[_arraySize];
-        private List<KeyValuePair<GeoLocation, string>>[] _geoTable = new List<KeyValuePair<GeoLocation, string>>[_arraySize];
-        private int _count;
+        private List<KeyValuePair<TKey, TValue>>[] _hashTable = new List<KeyValuePair<TKey, TValue>>[_arraySize];
+        private int _nodeCount;
 
         public HashDictionary()
         {
             for (int i = 0; i < _arraySize; i++)
-            {
-                _htable[i] = new List<KeyValuePair<int, int>>();
-                _geoTable[i] = new List<KeyValuePair<GeoLocation, string>>();
-            }
+                _hashTable[i] = new List<KeyValuePair<TKey, TValue>>();
         }
 
-        public int this[int key]
+        // Implementera metoder från föreläsnings-instruktioner
+        // private List<KeyValuePair<K, V>> Find(K key), kan returnera null om ingen nyckel hittas
+        // uint GetIndex(K key)
+
+        private int GetIndex(TKey key)
+        {
+            if (key == null) return -1;
+            return key.GetHashCode() % _arraySize;
+        }
+
+        public TValue this[TKey key]
         {
             get
             {
-                foreach(KeyValuePair<int, int> kvp in _htable[GetHash(key)])
-                    if (kvp.Key == key) return kvp.Value;
-                return default(int);
+                if (key != null)
+                {
+                    foreach (KeyValuePair<TKey, TValue> pair in _hashTable[GetIndex(key)])
+                        if (key.Equals(pair.Value)) return pair.Value;
+                }
+                return default(TValue)!;
             }
             set
             {
@@ -40,270 +55,139 @@ namespace Assignment3_HashDictionary
             }
         }
 
-        public string this[GeoLocation key]
+        public ICollection<TKey> Keys
         {
             get
             {
-                foreach(KeyValuePair<GeoLocation, string> kvp in _geoTable[GetHash(key)])
-                    if (kvp.Key == key) return kvp.Value;
-                return "";
-            }
-            set
-            {
-                if (ContainsKey(key))
-                {
-                    Remove(key);
-                    Add(key, value);
-                }
-                else
-                {
-                    Add(key, value);
-                }
-            }
-        }
-
-        public ICollection<int> Keys
-        {
-            get
-            {
-                ICollection<int> keys = new List<int>();
-                foreach (List<KeyValuePair<int, int>> chain in _htable)
-                    foreach (KeyValuePair<int, int> pair in chain)
+                ICollection<TKey> keys = new List<TKey>();
+                foreach(List<KeyValuePair<TKey, TValue>> chain in _hashTable)
+                    foreach (KeyValuePair<TKey, TValue> pair in chain)
                         keys.Add(pair.Key);
                 return keys;
             }
         }
 
-        public ICollection<int> Values
+        public ICollection<TValue> Values
         {
             get
             {
-                ICollection<int> values = new List<int>();
-                foreach(List<KeyValuePair<int, int>> chain in _htable)
-                    foreach(KeyValuePair<int, int> pair in chain)
+                ICollection<TValue> values = new List<TValue>();
+                foreach(List<KeyValuePair<TKey, TValue>> chain in _hashTable)
+                    foreach(KeyValuePair<TKey, TValue> pair in chain)
                         values.Add(pair.Value);
                 return values;
             }
         }
 
-        ICollection<GeoLocation> IDictionary<GeoLocation, string>.Keys
-        {
-            get
-            {
-                ICollection<GeoLocation> keys = new List<GeoLocation>();
-                foreach(List<KeyValuePair<GeoLocation, string>> chain in _geoTable)
-                foreach(KeyValuePair<GeoLocation, string> pair in chain)
-                    keys.Add(pair.Key);
-                return keys;
-            }  
-        }
-        
-        ICollection<string> IDictionary<GeoLocation, string>.Values
-        {
-            get
-            {
-                ICollection<string> values = new List<string>();
-                foreach(List<KeyValuePair<GeoLocation, string>> chain in _geoTable)
-                foreach(KeyValuePair<GeoLocation, string> pair in chain)
-                    values.Add(pair.Value);
-                return values;
-            } 
-        }
-
-        public int Count => _count;
+        public int Count => _nodeCount;
 
         public bool IsReadOnly => false;
 
-        private int GetHash(object key) => key.GetHashCode() % _arraySize;
-
-        public void Add(int key, int value)
+        public void Add(TKey key, TValue value)
         {
-            if (ContainsKey(key)) throw new ArgumentException("Key already exists in the table.");
-            _count++;
-            _htable[GetHash(key)].Add(new KeyValuePair<int, int>(key, value));
+            if (ContainsKey(key)) throw new ArgumentException("Key already exists in the hash dictionary.");
+            _nodeCount++;
+            _hashTable[GetIndex(key)].Add(new KeyValuePair<TKey, TValue>(key, value));
         }
 
-        public void Add(KeyValuePair<int, int> item)
+        public void Add(KeyValuePair<TKey, TValue> item)
         {
-            if (Contains(item)) throw new ArgumentException("Key already exists in the table.");
-            _count++;
-            _htable[GetHash(item.Key)].Add(new KeyValuePair<int, int>(item.Key, item.Value));
+            if (Contains(item)) throw new ArgumentException("Key already exists in hash dictionary.");
+            _nodeCount++;
+            _hashTable[GetIndex(item.Key)].Add(new KeyValuePair<TKey, TValue>(item.Key, item.Value));
         }
-        
-        public void Add(GeoLocation key, string value)
+
+        private KeyValuePair<TKey, TValue> FindKey(TKey key)
         {
-            if (ContainsKey(key)) throw new ArgumentException("Key already exists in the table.");
-            _count++;
-            _geoTable[GetHash(key)].Add(new KeyValuePair<GeoLocation, string>(key, value));
-        }
-        
-        public void Add(KeyValuePair<GeoLocation, string> item)
-        {
-            if (Contains(item)) throw new ArgumentException("Key already exists in the table.");
-            _count++;
-            _geoTable[GetHash(item.Key)].Add(new KeyValuePair<GeoLocation, string>(item.Key, item.Value));
+            if (key == null) return default(KeyValuePair<TKey, TValue>);
+            foreach (KeyValuePair<TKey, TValue> pair in _hashTable[GetIndex(key)])
+                if (key.Equals(pair.Key)) return pair;
+            return default(KeyValuePair<TKey, TValue>);
         }
 
         public void Clear()
         {
-            Array.Clear(_htable, 0, _htable.Length);
-            _count = 0;
+            Array.Clear(_hashTable, 0, _hashTable.Length);
+            _nodeCount = 0;
         }
 
-        public bool Contains(KeyValuePair<int, int> item)
+        public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            return _htable[GetHash(item.Key)].Contains(item);
-        }
-        
-        public bool Contains(KeyValuePair<GeoLocation, string> item)
-        {
-            return _geoTable[GetHash(item.Key)].Contains(item);
+            return _hashTable[GetIndex(item.Key)].Contains(item);
         }
 
-        public bool ContainsKey(int key)
+        public bool ContainsKey(TKey key)
         {
-            foreach(KeyValuePair<int, int> item in _htable[GetHash(key)])
-            {
-                if (item.Key == key) return true;
-            }
+            if (key != null)
+                foreach(KeyValuePair<TKey, TValue> keyValuePair in _hashTable[GetIndex(key)])
+                    if (key.Equals(keyValuePair.Key)) return true;
             return false;
         }
-        public bool ContainsKey(GeoLocation key)
+
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            foreach(KeyValuePair<GeoLocation, string> item in _geoTable[GetHash(key)])
+            for (int i = arrayIndex; i < array.Length; i++)
             {
-                if (item.Key == key) return true;
-            }
-            return false;
-        }
-        public void CopyTo(KeyValuePair<int, int>[] array, int arrayIndex)
-        {
-            for(int i = arrayIndex; i < array.Length; i++)
-            {
-                foreach(List<KeyValuePair<int, int>> chain in _htable)
-                    foreach(KeyValuePair<int, int> pair in chain)
+                foreach(List<KeyValuePair<TKey, TValue>> chain in _hashTable)
+                    foreach(KeyValuePair<TKey, TValue> pair in chain)
                     {
                         if (i == array.Length) break;
                         array[i] = pair;
                         i++;
                     }
-                if (i == _count) break;
+                if (i == _nodeCount) break;
             }
         }
 
-        public void CopyTo(KeyValuePair<GeoLocation, string>[] array, int arrayIndex)
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            for(int i = arrayIndex; i < array.Length; i++)
-            {
-                foreach(List<KeyValuePair<GeoLocation, string>> chain in _geoTable)
-                    foreach(KeyValuePair<GeoLocation, string> pair in chain)
-                    {
-                        if (i == array.Length) break;
-                        array[i] = pair;
-                        i++;
-                    }
-                if (i == _count) break;
-            }
-        }
-        
-        IEnumerator<KeyValuePair<GeoLocation, string>> IEnumerable<KeyValuePair<GeoLocation, string>>.GetEnumerator()
-        {
-            return new HashDictEnum(_geoTable);
+            return new HashDictEnum<TKey, TValue>(_hashTable);
         }
 
-        public IEnumerator<KeyValuePair<int, int>> GetEnumerator()
+        public bool Remove(TKey key)
         {
-            return new HashDictEnum(_htable);
-        }
-
-        public bool Remove(int key)
-        {
-            if (!ContainsKey(key)) return false;
-            foreach( KeyValuePair<int, int> item in _htable[GetHash(key)])
+            if (key == null) return false;
+            foreach(KeyValuePair<TKey, TValue> pair in _hashTable[GetIndex(key)])
             {
-                if (item.Key == key)
+                if (key.Equals(pair.Key))
                 {
-                    _count--;
-                    return _htable[GetHash(key)].Remove(item);
+                    _nodeCount--;
+                    return _hashTable[GetIndex(key)].Remove(pair);
                 }
             }
             return false;
         }
 
-        public bool Remove(KeyValuePair<int, int> item)
+        public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            if (!Contains(item)) return false;
-            if (_htable[GetHash(item.Key)].Remove(item))
+            if (item.Key == null) return false;
+            if (_hashTable[GetIndex(item.Key)].Remove(item))
             {
-                _count--;
+                _nodeCount--;
                 return true;
             }
             return false;
         }
-        
-        public bool Remove(GeoLocation key)
+
+        public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
         {
-            if (!ContainsKey(key)) return false;
-            foreach( KeyValuePair<GeoLocation, string> item in _geoTable[GetHash(key)])
+            if (key == null)
             {
-                if (item.Key == key)
-                {
-                    _count--;
-                    return _geoTable[GetHash(key)].Remove(item);
-                }
-            }
-            return false;
-        }
-        
-        public bool Remove(KeyValuePair<GeoLocation, string> item)
-        {
-            if (!Contains(item)) return false;
-            if (_geoTable[GetHash(item.Key)].Remove(item))
-            {
-                _count--;
-                return true;
-            }
-            return false;
-        }
-        
-        public bool TryGetValue(int key,  out int value)
-        {
-            if (!ContainsKey(key))
-            {
-                value = default(int);
+                value = default(TValue);
                 return false;
             }
-            foreach (KeyValuePair<int, int> item in _htable[GetHash(key)])
+            foreach(KeyValuePair<TKey, TValue> pair in _hashTable[GetIndex(key)])
             {
-                if (item.Key == key)
+                if (key.Equals(pair.Key))
                 {
-                    value = item.Value;
+                    value = pair.Value;
                     return true;
                 }
             }
-            value = default(int);
+            value = default(TValue);
             return false;
         }
 
-        public bool TryGetValue(GeoLocation key, out string value)
-        {
-            if (!ContainsKey(key))
-            {
-                value = "";
-                return false;
-            }
-            foreach (KeyValuePair<GeoLocation, string> item in _geoTable[GetHash(key)])
-            {
-                if (item.Key == key)
-                {
-                    value = item.Value;
-                    return true;
-                }
-            }
-            value = "";
-            return false;
-        }
-        
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

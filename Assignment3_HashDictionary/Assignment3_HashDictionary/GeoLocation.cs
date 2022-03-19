@@ -4,7 +4,7 @@
     {
         public float Longitude { get; private set; }
         public float Latitude { get; private set; }
-        public GeoLocation(int longitude, int latitude)
+        public GeoLocation(float longitude, float latitude)
         {
             Longitude = longitude;
             Latitude = latitude;
