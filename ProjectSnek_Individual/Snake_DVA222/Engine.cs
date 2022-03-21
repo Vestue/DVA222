@@ -15,12 +15,17 @@ namespace Snake_DVA222
         private int snakeStartLength = 5;
         public int GameObjectSize { get; private set; }
 
-        List<Snake> _snakes = new List<Snake>();
+        // *INDIVIDUAL ASSIGNMENT*
+        // Made the list of snakes gettable.
+        public List<Snake> _snakes { get; private set; } = new List<Snake>();
         List<Food> _food = new List<Food>();
 
         MainForm _form;
         System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
         Movement _movement = new Movement();
+
+        // *INDIVIDUAL ASSIGNMENT*
+        private int _moveCount = 1;
 
         public Engine()
         {
@@ -37,7 +42,10 @@ namespace Snake_DVA222
             SetGameSizes();
 
             _timer.Tick += TimerEventHandler;
-            _timer.Interval = 1000 / 30; // 30 fps lets goo
+
+            // *INDIVIDUAL ASSIGNMENT* 
+            // Went to 60 fps for the movement.
+            _timer.Interval = 1000 / 60;
 
             Application.Run(_form);
         }
@@ -131,7 +139,15 @@ namespace Snake_DVA222
         private void Move()
         {
             var snakes = new List<Snake>(_snakes);
-            foreach (var snake in snakes) snake.Move(Width, Height);
+
+            // *INDIVIDUAL ASSIGNMENT*
+            foreach (var snake in snakes)
+            {
+                if (snake.Speed % _moveCount == 0) snake.Move(Width, Height);
+            }
+
+            _moveCount++;
+            if (_moveCount > 10) _moveCount = 1;
         }
 
         private void TrySpawnFood()

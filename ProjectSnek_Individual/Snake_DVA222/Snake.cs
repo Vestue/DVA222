@@ -17,6 +17,11 @@ namespace Snake_DVA222
         public int ID { get; private set; }
         Engine Engine { get; set; }
 
+        // *INDIVIDUAL ASSIGNMENT*
+        // Higher value means slower speed
+        public int Speed { get; private set; } = 10;
+        System.Windows.Forms.Timer _speedUpTimer = new System.Windows.Forms.Timer();
+
         public Snake(int length, Coordinate startPos, int playerNumber, Engine engine)
         {
             ID = playerNumber;
@@ -45,7 +50,18 @@ namespace Snake_DVA222
                         throw new ArgumentOutOfRangeException();
                 }
             }
+
+            // *INDIVIDUAL ASSIGNMENT*
+            _speedUpTimer.Tick += _speedUpTimer_Tick;
         }
+
+        // *INDIVIDUAL ASSIGNMENT*
+        private void _speedUpTimer_Tick(object? sender, EventArgs e)
+        {
+            _speedUpTimer.Stop();
+            ResetSpeed();
+        }
+
         public int GetPoints() => Points;
 
         public void Move(int width, int height)
@@ -156,6 +172,16 @@ namespace Snake_DVA222
             // *INDIVIDUAL ASSIGNMENT*
             else if (ID == 3)
                 pen = new SolidBrush(Color.HotPink);
+        }
+
+        // *INDIVIDUAL ASSIGNMENT*
+        public void ResetSpeed() => Speed = 10;
+        public void UpdateSpeed(int x0PercentIncrease)
+        {
+            _speedUpTimer.Start();
+            Speed = x0PercentIncrease;
+            if (Speed < 0)
+                ResetSpeed();
         }
     }
 }
