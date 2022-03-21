@@ -29,7 +29,7 @@ namespace Snake_DVA222
             Square.Height = Engine.GameObjectSize - 1;
             Square.X = x;
             Square.Y = y;
-            color = random.Next(3, 4);
+            color = random.Next(0, 4);
             switch (color)
             {
                 case 0:
