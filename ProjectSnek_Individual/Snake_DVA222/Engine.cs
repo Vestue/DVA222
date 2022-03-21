@@ -9,7 +9,7 @@ namespace Snake_DVA222
     internal class Engine
     {
         public int AmountOfPlayers { get; private set; }
-        private int _currentAmountOfPlayers;
+        public int CurrentAmountOfPlayers { get; private set; }
         public int Height { get; private set; }
         public int Width { get; private set; }
         private int snakeStartLength = 5;
@@ -25,7 +25,7 @@ namespace Snake_DVA222
         Movement _movement = new Movement();
 
         // *INDIVIDUAL ASSIGNMENT*
-        private int _moveCount = 1;
+        private int _moveCount;
 
         public Engine()
         {
@@ -45,7 +45,7 @@ namespace Snake_DVA222
 
             // *INDIVIDUAL ASSIGNMENT* 
             // Went to 60 fps for the movement.
-            _timer.Interval = 1000 / 60;
+            _timer.Interval = 1000 / 100;
 
             Application.Run(_form);
         }
@@ -64,7 +64,7 @@ namespace Snake_DVA222
         public void Remove(Snake snake)
         {
             _snakes.Remove(snake);
-            _currentAmountOfPlayers--;
+            CurrentAmountOfPlayers--;
         }
         public void Remove(Food food) => _food.Remove(food);
 
@@ -93,7 +93,7 @@ namespace Snake_DVA222
         {
             _timer.Start();
 
-            _currentAmountOfPlayers = AmountOfPlayers = amountOfPlayers;
+            CurrentAmountOfPlayers = AmountOfPlayers = amountOfPlayers;
             Coordinate snakeCoordinate;
             for (int i = 0; i < amountOfPlayers; i++)
             {
@@ -143,17 +143,16 @@ namespace Snake_DVA222
             // *INDIVIDUAL ASSIGNMENT*
             foreach (var snake in snakes)
             {
-                if (snake.Speed % _moveCount == 0) snake.Move(Width, Height);
+                if (_moveCount % snake.Speed == 0) snake.Move(Width, Height);
             }
 
-            _moveCount++;
-            if (_moveCount > 10) _moveCount = 1;
+            _moveCount = (_moveCount + 1) % 6;
         }
 
         private void TrySpawnFood()
         {
             // This can be changed depending on how much food should be spawned.
-            if (_food.Count >= _currentAmountOfPlayers) return;
+            if (_food.Count >= CurrentAmountOfPlayers) return;
 
             var snakes = new List<Snake>(_snakes);
             List<Coordinate> snakeCoords = new List<Coordinate>();
@@ -185,7 +184,7 @@ namespace Snake_DVA222
             string scoreString = "";
             foreach (var snake in snakes)
                 scoreString += $"Player {snake.ID}: {snake.Points}\r\n";
-            if (_currentAmountOfPlayers == 1 && AmountOfPlayers > 1)
+            if (CurrentAmountOfPlayers == 1 && AmountOfPlayers > 1)
                 scoreString += "WINNER!";
             return scoreString;
         }

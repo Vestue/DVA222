@@ -19,14 +19,17 @@ namespace Snake_DVA222
         
         Rectangle Square = new Rectangle();
         Engine Engine;
-       public Food(int x, int y, Engine engine)
+
+        // *INDIVIDUAL ASSIGNMENT*
+        private bool _willAlterSpeed = false;
+        public Food(int x, int y, Engine engine)
         {
             Engine = engine;
             Square.Width = Engine.GameObjectSize - 1;
             Square.Height = Engine.GameObjectSize - 1;
             Square.X = x;
             Square.Y = y;
-            color = random.Next(0, 3);
+            color = random.Next(3, 4);
             switch (color)
             {
                 case 0:
@@ -39,12 +42,19 @@ namespace Snake_DVA222
                     points = 5;
                     pen.Color = Color.Red;
                     break;
-
                 case 2:
                     value = -1;
                     points = 1;
                     pen.Color= Color.Yellow;
-                    
+                    break;
+
+                // *INDIVIDUAL ASSIGNMENT*
+                case 3:
+                    value = 0;
+                    // Reward should be worth the risk.
+                    points = 8;
+                    pen.Color = Color.Blue;
+                    _willAlterSpeed = true;
                     break;
             }
         }
@@ -86,6 +96,13 @@ namespace Snake_DVA222
         public void TryHit(Snake snake)
         {
             snake.Hit(points, value);
+
+            // *INDIVIDUAL ASSIGNMENT*
+            if (_willAlterSpeed)
+            {
+                Engine._snakes[random.Next(0, Engine.CurrentAmountOfPlayers)].UpdateSpeed(random.Next(1, 4));
+            }
+
             Engine.Remove(this);
         }
     }

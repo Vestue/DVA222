@@ -19,8 +19,11 @@ namespace Snake_DVA222
 
         // *INDIVIDUAL ASSIGNMENT*
         // Higher value means slower speed
-        public int Speed { get; private set; } = 10;
+        private readonly int _defaultSpeed = 5;
+        public int Speed { get; private set; } = 5;
         System.Windows.Forms.Timer _speedUpTimer = new System.Windows.Forms.Timer();
+        private int _speedTickCount;
+        private SolidBrush _originalColor = new SolidBrush(Color.Purple);
 
         public Snake(int length, Coordinate startPos, int playerNumber, Engine engine)
         {
@@ -53,13 +56,23 @@ namespace Snake_DVA222
 
             // *INDIVIDUAL ASSIGNMENT*
             _speedUpTimer.Tick += _speedUpTimer_Tick;
+            _speedUpTimer.Interval = 1000;
         }
 
         // *INDIVIDUAL ASSIGNMENT*
         private void _speedUpTimer_Tick(object? sender, EventArgs e)
         {
-            _speedUpTimer.Stop();
-            ResetSpeed();
+            if (_speedTickCount >= 10)
+            {
+                _speedUpTimer.Stop();
+                ResetSpeed();
+                _speedTickCount = 0;
+                pen = _originalColor;
+                return;
+            }
+            if (_speedTickCount % 2 == 0) pen.Color = Color.OrangeRed;
+            else pen = _originalColor;
+            _speedTickCount++;
         }
 
         public int GetPoints() => Points;
@@ -167,20 +180,26 @@ namespace Snake_DVA222
 
         public void Colorize()
         {
-            if (ID == 2)
-                pen = new SolidBrush(Color.Green);
             // *INDIVIDUAL ASSIGNMENT*
+            if (ID == 2)
+            {
+                pen.Color = Color.Green;
+                _originalColor.Color = Color.Green;
+            }
             else if (ID == 3)
-                pen = new SolidBrush(Color.HotPink);
+            {
+                pen.Color = Color.HotPink;
+                _originalColor.Color = Color.HotPink;
+            }
         }
 
         // *INDIVIDUAL ASSIGNMENT*
-        public void ResetSpeed() => Speed = 10;
+        public void ResetSpeed() => Speed = _defaultSpeed;
         public void UpdateSpeed(int x0PercentIncrease)
         {
             _speedUpTimer.Start();
-            Speed = x0PercentIncrease;
-            if (Speed < 0)
+            Speed -= x0PercentIncrease;
+            if (Speed <= 0)
                 ResetSpeed();
         }
     }
