@@ -153,6 +153,8 @@ namespace Snake_DVA222
         {
             if (ID == 2)
                 pen = new SolidBrush(Color.Green);
+            else if (ID == 3)
+                pen = new SolidBrush(Color.Blue);
         }
     }
 }

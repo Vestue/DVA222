@@ -58,6 +58,10 @@ namespace Snake_DVA222
             button3.Visible = false;
             textBox1.Visible = false;
             textBox1.Enabled = false;
+
+            // *INDIVIDUAL ASSIGNMENT*
+            button4.Visible = false;
+            button4.Enabled = false;
         }
 
         public void RestartMenu()
@@ -74,6 +78,18 @@ namespace Snake_DVA222
             textBox1.Enabled = true;
             ScoreDisplay.Enabled = false;
             ScoreDisplay.Visible = false;
+
+            // *INDIVIDUAL ASSIGNMENT*
+            button4.Enabled = true;
+            button4.Visible = true;
+        }
+
+        private void button4_Click(object sender, EventArgs e) // *INDIVIDUAL ASSIGNMENT*
+        {
+            ClearForm();
+            ScoreDisplay.Enabled = true;
+            ScoreDisplay.Visible = true;
+            if (_engine != null) _engine.StartGame(3);
         }
     }
 }
