@@ -23,7 +23,6 @@ namespace Snake_DVA222
         public int Speed { get; private set; } = 5;
         System.Windows.Forms.Timer _speedUpTimer = new System.Windows.Forms.Timer();
         private int _speedTickCount;
-        private SolidBrush _originalColor = new SolidBrush(Color.Purple);
 
         public Snake(int length, Coordinate startPos, int playerNumber, Engine engine)
         {
@@ -67,11 +66,11 @@ namespace Snake_DVA222
                 _speedUpTimer.Stop();
                 ResetSpeed();
                 _speedTickCount = 0;
-                pen = _originalColor;
+                Colorize();
                 return;
             }
-            if (_speedTickCount % 2 == 0) pen.Color = Color.OrangeRed;
-            else pen = _originalColor;
+            if (_speedTickCount % 2 == 0) Colorize();
+            else pen.Color = Color.OrangeRed;
             _speedTickCount++;
         }
 
@@ -181,15 +180,17 @@ namespace Snake_DVA222
         public void Colorize()
         {
             // *INDIVIDUAL ASSIGNMENT*
-            if (ID == 2)
+            switch (ID)
             {
-                pen.Color = Color.Green;
-                _originalColor.Color = Color.Green;
-            }
-            else if (ID == 3)
-            {
-                pen.Color = Color.HotPink;
-                _originalColor.Color = Color.HotPink;
+                case 1:
+                    pen.Color = Color.Purple;
+                    break;
+                case 2:
+                    pen.Color = Color.Green;
+                    break;
+                case 3:
+                    pen.Color = Color.HotPink;
+                    break;
             }
         }
 
@@ -199,8 +200,12 @@ namespace Snake_DVA222
         {
             _speedUpTimer.Start();
             Speed -= x0PercentIncrease;
+            pen.Color = Color.OrangeRed;
             if (Speed <= 0)
+            {
+                Colorize();
                 ResetSpeed();
+            }
         }
     }
 }
