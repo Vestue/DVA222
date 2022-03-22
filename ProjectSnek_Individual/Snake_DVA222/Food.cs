@@ -51,8 +51,7 @@ namespace Snake_DVA222
                 // *INDIVIDUAL ASSIGNMENT*
                 case 3:
                     value = 0;
-                    // Reward should be worth the risk.
-                    points = 8;
+                    points = 2;
                     pen.Color = Color.Blue;
                     _willAlterSpeed = true;
                     break;

@@ -196,10 +196,10 @@ namespace Snake_DVA222
 
         // *INDIVIDUAL ASSIGNMENT*
         public void ResetSpeed() => Speed = _defaultSpeed;
-        public void UpdateSpeed(int x0PercentIncrease)
+        public void UpdateSpeed(int increaseAmount)
         {
             _speedUpTimer.Start();
-            Speed -= x0PercentIncrease;
+            Speed -= increaseAmount;
             pen.Color = Color.OrangeRed;
             if (Speed <= 0)
             {

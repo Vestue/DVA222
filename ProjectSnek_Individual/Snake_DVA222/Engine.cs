@@ -44,7 +44,7 @@ namespace Snake_DVA222
             _timer.Tick += TimerEventHandler;
 
             // *INDIVIDUAL ASSIGNMENT* 
-            // Went to 60 fps for the movement.
+            // Went to 100 fps for the movement.
             _timer.Interval = 1000 / 100;
 
             Application.Run(_form);
@@ -123,7 +123,6 @@ namespace Snake_DVA222
 
         private void Collide()
         {
-            // Try doing this without the temp lists if collisions do not trigger things as they should.
             var snakes = new List<Snake>(_snakes);
             var foodList = new List<Food>(_food);
 
