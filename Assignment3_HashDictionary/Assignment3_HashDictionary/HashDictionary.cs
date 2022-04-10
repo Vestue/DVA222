@@ -30,12 +30,12 @@ namespace Assignment3_HashDictionary
         {
             get
             {
+                return FindKey(key).Value; /*
                 if (key != null)
                 {
-                    foreach (KeyValuePair<TKey, TValue> pair in _hashTable[GetIndex(key)])
-                        if (key.Equals(pair.Value)) return pair.Value;
+                    
                 }
-                return default(TValue)!;
+                return default(TValue)!;*/
             }
             set
             {
